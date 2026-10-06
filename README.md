@@ -1,27 +1,27 @@
 # Quest Progress HUD
 
-A lightweight Minecraft HUD mod intended to display FTB Quests progress without opening the quest screen.
+A lightweight Minecraft HUD mod that displays FTB Quests progress without opening the quest screen.
 
 ## Current status
 
-**v0.0.2 – HUD smoke test**
+**v0.0.3 – FTB Quests progress test**
 
-The current build only renders:
+The current build renders:
 
 ```text
-Quest Progress: TEST
+Quests: 342 / 500
 ```
 
 in the top-left corner while playing in a world.
 
-FTB Quests integration will be added after this basic HUD build is verified in All the Mods 10.
+The values are read from the client's synced FTB Quests data and refreshed once per second.
 
 ## Target
 
 - Minecraft 1.21.1
-- NeoForge
-- Java 21
-- Primary test environment: All the Mods 10
+- NeoForge 21.1.251+
+- FTB Quests 2101.1.x
+- Primary test environment: All the Mods 10 v8.2
 
 ## Download a test build
 
@@ -30,7 +30,8 @@ FTB Quests integration will be added after this basic HUD build is verified in A
 3. Download the `quest-progress-hud` artifact.
 4. Extract the ZIP.
 5. Put the `.jar` file into the ATM10 instance's `mods` folder.
-6. Start ATM10 and enter a world.
+6. Remove any older Quest Progress HUD jar.
+7. Start ATM10 and enter a world.
 
 ## Development
 
