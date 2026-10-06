@@ -4,7 +4,7 @@ A lightweight Minecraft HUD mod that displays FTB Quests progress without openin
 
 ## Current status
 
-**v0.0.6 – Configurable compact HUD**
+**v0.0.7 – Framed compact HUD with an experience-style gauge**
 
 The compact panel renders:
 
@@ -15,8 +15,11 @@ Quests       10.1%
 ```
 
 in the top-left corner while playing in a world, using Minecraft's font.
-A translucent dark background keeps the text readable. The percentage and thin
-progress bar use a soft green accent; the total count uses gray.
+A translucent dark background with a thin, subtle beveled frame keeps the text
+readable. Tighter spacing gives the panel a compact shape. The percentage uses
+a soft green accent; the total count uses gray. The progress gauge has a dark
+inset track, green highlights and small notches inspired by Minecraft's experience bar.
+It still represents quest completion, not player experience.
 The panel expands horizontally for longer counts, and hides the percentage and
 bar until quest data is loaded.
 
@@ -45,7 +48,8 @@ in `config/quest_progress_hud-client.toml` within the instance.
 Positive offsets move inward from the selected edges, starting at the default
 8 GUI-pixel margin. Positions are clamped to the screen. If the selected size
 cannot fit on a small screen, the HUD automatically shrinks to fit.
-Defaults preserve the v0.0.5 appearance. Settings labels and help are available
+The v0.0.6 display settings and saved configuration remain compatible.
+The frame fades with background opacity and disappears at 0%. Settings labels and help are available
 in English and Japanese; the HUD keeps its original English labels.
 
 ## Target
@@ -61,7 +65,7 @@ in English and Japanese; the HUD keeps its original English labels.
 2. Open the latest successful **Build** workflow.
 3. Download the `quest-progress-hud` artifact.
 4. Extract the ZIP.
-5. Put `quest-progress-hud-0.0.6.jar` into the ATM10 instance's `mods` folder.
+5. Put `quest-progress-hud-0.0.7.jar` into the ATM10 instance's `mods` folder.
 6. Remove any older Quest Progress HUD jar.
 7. Start ATM10 and enter a world.
 
