@@ -1,5 +1,24 @@
 {
   "hud.quest_progress_hud.title": "Quests",
   "hud.quest_progress_hud.loading": "Loading...",
-  "hud.quest_progress_hud.counts": "%1$s / %2$s"
+  "hud.quest_progress_hud.counts": "%1$s / %2$s",
+  "quest_progress_hud.configuration.title": "Quest Progress HUD Settings",
+  "quest_progress_hud.configuration.section.quest.progress.hud.client.toml": "HUD",
+  "quest_progress_hud.configuration.section.quest.progress.hud.client.toml.title": "HUD Settings",
+  "quest_progress_hud.configuration.enabled": "Show HUD",
+  "quest_progress_hud.configuration.enabled.tooltip": "Show or hide the quest progress HUD.",
+  "quest_progress_hud.configuration.anchor": "Screen corner",
+  "quest_progress_hud.configuration.anchor.tooltip": "Choose the corner from which the HUD is positioned.",
+  "quest_progress_hud.configuration.anchor.top_left": "Top left",
+  "quest_progress_hud.configuration.anchor.top_right": "Top right",
+  "quest_progress_hud.configuration.anchor.bottom_left": "Bottom left",
+  "quest_progress_hud.configuration.anchor.bottom_right": "Bottom right",
+  "quest_progress_hud.configuration.offsetX": "Horizontal offset",
+  "quest_progress_hud.configuration.offsetX.tooltip": "GUI pixels from the default margin. Positive moves inward from the selected left or right edge. Position is kept on screen.",
+  "quest_progress_hud.configuration.offsetY": "Vertical offset",
+  "quest_progress_hud.configuration.offsetY.tooltip": "GUI pixels from the default margin. Positive moves inward from the selected top or bottom edge. Position is kept on screen.",
+  "quest_progress_hud.configuration.scale": "HUD size",
+  "quest_progress_hud.configuration.scale.tooltip": "0.5 is half size, 1.0 is the default, 3.0 is triple size. Automatically reduced if needed to fit on screen.",
+  "quest_progress_hud.configuration.backgroundOpacity": "Background opacity (%)",
+  "quest_progress_hud.configuration.backgroundOpacity.tooltip": "0 is transparent; 100 is opaque. Default: 72."
 }

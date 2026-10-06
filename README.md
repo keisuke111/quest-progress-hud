@@ -4,7 +4,7 @@ A lightweight Minecraft HUD mod that displays FTB Quests progress without openin
 
 ## Current status
 
-**v0.0.5 – Compact HUD with progress bar**
+**v0.0.6 – Configurable compact HUD**
 
 The compact panel renders:
 
@@ -27,6 +27,27 @@ While quest data is syncing, the panel shows `Quests` and `Loading...`.
 Quest counting is unchanged from v0.0.3: the denominator counts every registered Quest,
 including hidden, repeatable, and internal quests. No filtering is applied yet.
 
+## HUD settings
+
+Open **Mods → Quest Progress HUD → Config** and edit the client settings.
+Close the settings with **Done** to save; the HUD uses the updated values when
+you return to the world, without restarting. Settings persist across launches
+in `config/quest_progress_hud-client.toml` within the instance.
+
+| Setting | Default | Options |
+| --- | --- | --- |
+| Show HUD | On | On / Off |
+| Screen corner | Top left | All four corners |
+| Horizontal / vertical offset | 0 | -10000 to 10000 GUI pixels |
+| HUD size | 1.0 | 0.5 to 3.0, relative to Minecraft GUI scale |
+| Background opacity | 72% | 0% (transparent) to 100% (opaque) |
+
+Positive offsets move inward from the selected edges, starting at the default
+8 GUI-pixel margin. Positions are clamped to the screen. If the selected size
+cannot fit on a small screen, the HUD automatically shrinks to fit.
+Defaults preserve the v0.0.5 appearance. Settings labels and help are available
+in English and Japanese; the HUD keeps its original English labels.
+
 ## Target
 
 - Minecraft 1.21.1
@@ -40,7 +61,7 @@ including hidden, repeatable, and internal quests. No filtering is applied yet.
 2. Open the latest successful **Build** workflow.
 3. Download the `quest-progress-hud` artifact.
 4. Extract the ZIP.
-5. Put `quest-progress-hud-0.0.5.jar` into the ATM10 instance's `mods` folder.
+5. Put `quest-progress-hud-0.0.6.jar` into the ATM10 instance's `mods` folder.
 6. Remove any older Quest Progress HUD jar.
 7. Start ATM10 and enter a world.
 

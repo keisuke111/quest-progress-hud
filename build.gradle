@@ -90,3 +90,14 @@ idea {
         downloadJavadoc = true
     }
 }
+
+tasks.register('verifyHudLayout', JavaExec) {
+    group = 'verification'
+    description = 'Check HUD corners, offsets, scale, bounds, and opacity.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.github.keisuke111.questprogresshud.HudLayoutTest'
+}
+tasks.named('check') {
+    dependsOn tasks.named('verifyHudLayout')
+}
