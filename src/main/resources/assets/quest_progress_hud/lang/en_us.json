@@ -1,4 +1,5 @@
 {
-  "hud.quest_progress_hud.loading": "Quests: Loading...",
-  "hud.quest_progress_hud.progress": "Quests: %1$s / %2$s (%3$s)"
+  "hud.quest_progress_hud.title": "Quests",
+  "hud.quest_progress_hud.loading": "Loading...",
+  "hud.quest_progress_hud.counts": "%1$s / %2$s"
 }
