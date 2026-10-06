@@ -1,3 +1,4 @@
 {
-  "hud.quest_progress_hud.test": "Quest Progress: TEST"
+  "hud.quest_progress_hud.loading": "Quests: Loading...",
+  "hud.quest_progress_hud.progress": "Quests: %1$s / %2$s"
 }
