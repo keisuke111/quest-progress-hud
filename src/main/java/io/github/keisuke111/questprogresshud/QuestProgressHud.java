@@ -10,6 +10,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod(value = QuestProgressHud.MOD_ID, dist = Dist.CLIENT)
@@ -73,10 +74,15 @@ public final class QuestProgressHud {
             }
         });
 
+        int completedCount = completed.get();
+        int totalCount = total.get();
+        double percentage = totalCount == 0 ? 0.0 : 100.0 * completedCount / totalCount;
+
         progressText = Component.translatable(
                 "hud.quest_progress_hud.progress",
-                completed.get(),
-                total.get()
+                completedCount,
+                totalCount,
+                String.format(Locale.ROOT, "%.1f%%", percentage)
         );
     }
 }
