@@ -4,7 +4,7 @@ A lightweight Minecraft HUD mod intended to display FTB Quests progress without 
 
 ## Current status
 
-**v0.0.1 – HUD smoke test**
+**v0.0.2 – HUD smoke test**
 
 The current build only renders:
 
