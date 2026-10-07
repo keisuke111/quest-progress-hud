@@ -52,14 +52,13 @@ public final class QuestProgressHud {
         GuiGraphics graphics = event.getGuiGraphics();
         int x = 0;
         int y = 0;
-        int padding = 5;
-        int lineHeight = minecraft.font.lineHeight;
-        int headerWidth = minecraft.font.width(titleText) + minecraft.font.width(percentageText) + 12;
-        int width = Math.max(116, Math.max(headerWidth, minecraft.font.width(countText)) + padding * 2);
+        int padding = HudLayout.PADDING;
+        HudLayout.Row row = HudLayout.compactRow(minecraft.font.width(titleText),
+                minecraft.font.width(countText), minecraft.font.width(percentageText),
+                minecraft.font.lineHeight, progressLoaded);
+        int width = row.width();
         int contentWidth = width - padding * 2;
-        int countY = y + padding + lineHeight + 2;
-        int barY = countY + lineHeight + 4;
-        int height = progressLoaded ? barY - y + 5 + padding : countY - y + lineHeight + padding;
+        int height = row.height();
 
         HudConfig.Anchor anchor = HudConfig.ANCHOR.get();
         HudLayout.Placement placement = HudLayout.place(
@@ -73,14 +72,14 @@ public final class QuestProgressHud {
             graphics.pose().scale((float) placement.scale(), (float) placement.scale(), 1);
             drawPanel(graphics, x, y, width, height, HudConfig.BACKGROUND_OPACITY.get());
             graphics.drawString(minecraft.font, titleText, x + padding, y + padding, 0xFFFFFF, true);
-            graphics.drawString(minecraft.font, countText, x + padding, countY, 0xFFFFFF, true);
+            graphics.drawString(minecraft.font, countText, x + row.countX(), y + padding, 0xFFFFFF, true);
 
             if (progressLoaded) {
                 graphics.drawString(minecraft.font, percentageText,
-                        x + width - padding - minecraft.font.width(percentageText),
+                        x + row.percentageX(),
                         y + padding, 0x8BE18B, true);
                 int filledWidth = (int) Math.round((contentWidth - 2) * progressFraction);
-                drawExperienceBar(graphics, x + padding, barY, contentWidth, filledWidth);
+                drawProgressBar(graphics, x + padding, y + row.barY(), contentWidth, filledWidth);
             }
         } finally {
             graphics.pose().popPose();
@@ -91,26 +90,18 @@ public final class QuestProgressHud {
         graphics.fill(x, y, x + width, y + height, HudLayout.backgroundColor(opacity));
         // Keep the bevel inside the panel bounds and honor the background opacity setting.
         int alpha = (int) Math.round(255.0 * opacity / 100.0) << 24;
-        graphics.fill(x, y, x + width - 1, y + 1, alpha | 0x53636D);
-        graphics.fill(x, y + 1, x + 1, y + height - 1, alpha | 0x53636D);
-        graphics.fill(x + 1, y + height - 1, x + width, y + height, alpha | 0x0B1014);
-        graphics.fill(x + width - 1, y, x + width, y + height - 1, alpha | 0x0B1014);
+        graphics.fill(x, y, x + width - 1, y + 1, alpha | 0x3B4147);
+        graphics.fill(x, y + 1, x + 1, y + height - 1, alpha | 0x3B4147);
+        graphics.fill(x + 1, y + height - 1, x + width, y + height, alpha | 0x0B0E11);
+        graphics.fill(x + width - 1, y, x + width, y + height - 1, alpha | 0x0B0E11);
     }
 
-    private static void drawExperienceBar(GuiGraphics graphics, int x, int y, int width, int filledWidth) {
-        int innerWidth = width - 2;
-        graphics.fill(x, y, x + width, y + 5, 0xFF10170D);
-        graphics.fill(x + 1, y + 1, x + width - 1, y + 2, 0xFF293820);
-        graphics.fill(x + 1, y + 2, x + width - 1, y + 4, 0xFF354B29);
+    private static void drawProgressBar(GuiGraphics graphics, int x, int y, int width, int filledWidth) {
+        graphics.fill(x, y, x + width, y + HudLayout.BAR_HEIGHT, 0xFF10170D);
+        graphics.fill(x + 1, y + 1, x + width - 1, y + 3, 0xFF293820);
         if (filledWidth > 0) {
-            graphics.fill(x + 1, y + 1, x + 1 + filledWidth, y + 2, 0xFFB3EC69);
-            graphics.fill(x + 1, y + 2, x + 1 + filledWidth, y + 3, 0xFF80CE42);
-            graphics.fill(x + 1, y + 3, x + 1 + filledWidth, y + 4, 0xFF4F9229);
-        }
-        // Small notches give the continuous fill an experience-gauge appearance.
-        for (int segment = 1; segment < 18; segment++) {
-            int notchX = x + 1 + innerWidth * segment / 18;
-            graphics.fill(notchX, y + 1, notchX + 1, y + 4, 0x500B1407);
+            graphics.fill(x + 1, y + 1, x + 1 + filledWidth, y + 2, 0xFF8BE18B);
+            graphics.fill(x + 1, y + 2, x + 1 + filledWidth, y + 3, 0xFF65B46A);
         }
     }
 

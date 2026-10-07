@@ -33,8 +33,8 @@ public final class HudLayoutTest {
                 || HudLayout.backgroundColor(100) != 0xFF14171A) {
             throw new AssertionError("Incorrect background opacity");
         }
-        // Current panel, loading state and widened/localized text across GUI-scale/resolution changes.
-        for (int[] panel : new int[][]{{116, 39}, {116, 30}, {400, 39}}) {
+        // Compact row, loading state and widened/localized text across GUI-scale/resolution changes.
+        for (int[] panel : new int[][]{{148, 26}, {116, 19}, {400, 26}}) {
             for (int[] screen : new int[][]{{1, 1}, {64, 32}, {320, 180}, {854, 480}, {3440, 1440}}) {
                 for (boolean right : new boolean[]{false, true}) {
                     for (boolean bottom : new boolean[]{false, true}) {
@@ -53,7 +53,33 @@ public final class HudLayoutTest {
                 }
             }
         }
-        System.out.println("HUD layout checks passed: corners, offsets, scales, screen bounds and opacity.");
+        for (boolean loaded : new boolean[]{false, true}) {
+            for (int[] text : new int[][]{{36, 56, 28}, {36, 68, 34}, {150, 200, 70}, {0, 0, 0}}) {
+                for (int lineHeight : new int[]{9, 18}) {
+                    HudLayout.Row row = HudLayout.compactRow(text[0], text[1], text[2], lineHeight, loaded);
+                    if (row.countX() < HudLayout.PADDING + text[0] + HudLayout.GAP
+                            || row.countX() + text[1] > row.width() - HudLayout.PADDING
+                            || (loaded && row.countX() + text[1] + HudLayout.GAP > row.percentageX())
+                            || (loaded && row.percentageX() + text[2] > row.width() - HudLayout.PADDING)
+                            || (loaded && row.barY() < HudLayout.PADDING + lineHeight + 3)
+                            || (loaded && row.barY() + HudLayout.BAR_HEIGHT > row.height() - HudLayout.PADDING)
+                            || row.height() >= 39 + (lineHeight - 9) * 2) {
+                        throw new AssertionError("Compact text overlaps or clips: " + row);
+                    }
+                    for (boolean right : new boolean[]{false, true}) {
+                        for (boolean bottom : new boolean[]{false, true}) {
+                            HudLayout.Placement p = HudLayout.place(64, 32, row.width(), row.height(),
+                                    3, right, bottom, 10000, -10000);
+                            if (p.x() < 0 || p.y() < 0 || p.x() + row.width() * p.scale() > 64 + 1e-6
+                                    || p.y() + row.height() * p.scale() > 32 + 1e-6) {
+                                throw new AssertionError("Compact row outside small screen: " + p);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("HUD layout checks passed: compact row without overlapping text, loading/long text, corners, offsets, scales, screen bounds and opacity.");
     }
 
     private static void check(HudLayout.Placement actual, double x, double y, double scale) {
