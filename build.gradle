@@ -95,8 +95,8 @@ idea {
 sourceSets {
     layoutCheck {
         java.srcDir 'src/layoutCheck/java'
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
     }
 }
 
@@ -109,4 +109,26 @@ tasks.register('verifyHudLayout', JavaExec) {
 }
 tasks.named('check') {
     dependsOn tasks.named('verifyHudLayout')
+}
+
+tasks.register('verifyProgress', JavaExec) {
+    group = 'verification'
+    description = 'Check refresh timing, sync readiness, disconnects, teams, resets and counting.'
+    dependsOn tasks.named('layoutCheckClasses')
+    classpath = sourceSets.layoutCheck.runtimeClasspath
+    mainClass = 'io.github.keisuke111.questprogresshud.ProgressTrackerTest'
+}
+tasks.named('check') {
+    dependsOn tasks.named('verifyProgress')
+}
+
+tasks.register('verifyHudConfig', JavaExec) {
+    group = 'verification'
+    description = 'Check persisted settings and invalid-value correction using the NeoForge spec.'
+    dependsOn tasks.named('layoutCheckClasses')
+    classpath = sourceSets.layoutCheck.runtimeClasspath
+    mainClass = 'io.github.keisuke111.questprogresshud.HudConfigTest'
+}
+tasks.named('check') {
+    dependsOn tasks.named('verifyHudConfig')
 }

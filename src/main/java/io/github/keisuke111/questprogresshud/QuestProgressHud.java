@@ -14,18 +14,20 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 @Mod(value = QuestProgressHud.MOD_ID, dist = Dist.CLIENT)
 public final class QuestProgressHud {
     public static final String MOD_ID = "quest_progress_hud";
 
-    private static final long UPDATE_INTERVAL_MS = 1000L;
-
-    private long lastUpdateTime;
+    private static final UUID UNSYNCED_TEAM = new UUID(0L, 0L);
+    private final ProgressTracker tracker = new ProgressTracker();
+    private ProgressTracker.Snapshot displayedSnapshot;
     private final Component titleText = Component.translatable("hud.quest_progress_hud.title");
     private Component countText = Component.translatable("hud.quest_progress_hud.loading");
     private Component percentageText = Component.empty();
@@ -36,6 +38,8 @@ public final class QuestProgressHud {
         container.registerConfig(ModConfig.Type.CLIENT, HudConfig.SPEC);
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         NeoForge.EVENT_BUS.addListener(this::onRenderGui);
+        NeoForge.EVENT_BUS.addListener(this::onClientTick);
+        NeoForge.EVENT_BUS.addListener(this::onLogout);
     }
 
     private void onRenderGui(RenderGuiEvent.Post event) {
@@ -44,8 +48,6 @@ public final class QuestProgressHud {
         if (minecraft.player == null || minecraft.level == null || minecraft.options.hideGui || !HudConfig.ENABLED.get()) {
             return;
         }
-
-        updateProgress();
 
         GuiGraphics graphics = event.getGuiGraphics();
         int x = 0;
@@ -112,53 +114,53 @@ public final class QuestProgressHud {
         }
     }
 
+    private void onLogout(ClientPlayerNetworkEvent.LoggingOut event) {
+        tracker.disconnect(FTBQuestsClient.getClientQuestFile());
+        showLoading();
+    }
+
+    private void onClientTick(ClientTickEvent.Post event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        BaseQuestFile file = FTBQuestsClient.getClientQuestFile();
+        if (minecraft.player == null || minecraft.level == null || minecraft.getConnection() == null) {
+            tracker.disconnect(file);
+            showLoading();
+            return;
+        }
+        if (!HudConfig.ENABLED.get() || minecraft.options.hideGui) {
+            tracker.clear();
+            showLoading();
+            return;
+        }
+        boolean fileReady = file != null && FTBQuestsClient.isClientDataLoaded();
+        TeamData team = fileReady ? FTBQuestsClient.getClientPlayerData() : null;
+        boolean ready = team != null && !UNSYNCED_TEAM.equals(team.getTeamId());
+        ProgressTracker.Snapshot snapshot = tracker.update(System.nanoTime(),
+                minecraft.getConnection(), minecraft.level, file, team, ready, () -> {
+                    ProgressTracker.Counter counter = new ProgressTracker.Counter();
+                    // Count every registered quest, including hidden and optional ones.
+                    file.forAllQuests(quest -> counter.accept(team.isCompleted(quest)));
+                    return counter.snapshot();
+                });
+        if (snapshot == null) {
+            showLoading();
+        } else if (!snapshot.equals(displayedSnapshot)) {
+            displayedSnapshot = snapshot;
+            countText = Component.translatable("hud.quest_progress_hud.counts", snapshot.completed(),
+                    Component.literal(Integer.toString(snapshot.total())).withStyle(ChatFormatting.GRAY));
+            percentageText = Component.literal(String.format(Locale.ROOT, "%.1f%%", snapshot.fraction() * 100.0));
+            progressFraction = snapshot.fraction();
+            progressLoaded = true;
+        }
+    }
+
     private void showLoading() {
+        if (!progressLoaded && displayedSnapshot == null) return;
+        displayedSnapshot = null;
         countText = Component.translatable("hud.quest_progress_hud.loading");
         percentageText = Component.empty();
         progressFraction = 0.0;
         progressLoaded = false;
     }
 
-    private void updateProgress() {
-        long now = System.currentTimeMillis();
-        if (now - lastUpdateTime < UPDATE_INTERVAL_MS) {
-            return;
-        }
-        lastUpdateTime = now;
-
-        if (!FTBQuestsClient.isClientDataLoaded()) {
-            showLoading();
-            return;
-        }
-
-        BaseQuestFile questFile = FTBQuestsClient.getClientQuestFile();
-        if (questFile == null) {
-            showLoading();
-            return;
-        }
-
-        TeamData teamData = FTBQuestsClient.getClientPlayerData();
-        AtomicInteger total = new AtomicInteger();
-        AtomicInteger completed = new AtomicInteger();
-
-        questFile.forAllQuests(quest -> {
-            total.incrementAndGet();
-            if (teamData.isCompleted(quest)) {
-                completed.incrementAndGet();
-            }
-        });
-
-        int completedCount = completed.get();
-        int totalCount = total.get();
-        double percentage = totalCount == 0 ? 0.0 : 100.0 * completedCount / totalCount;
-
-        countText = Component.translatable(
-                "hud.quest_progress_hud.counts",
-                completedCount,
-                Component.literal(Integer.toString(totalCount)).withStyle(ChatFormatting.GRAY)
-        );
-        percentageText = Component.literal(String.format(Locale.ROOT, "%.1f%%", percentage));
-        progressFraction = Math.max(0.0, Math.min(1.0, percentage / 100.0));
-        progressLoaded = true;
-    }
 }

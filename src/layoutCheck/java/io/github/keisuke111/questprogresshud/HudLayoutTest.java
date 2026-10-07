@@ -33,6 +33,26 @@ public final class HudLayoutTest {
                 || HudLayout.backgroundColor(100) != 0xFF14171A) {
             throw new AssertionError("Incorrect background opacity");
         }
+        // Current panel, loading state and widened/localized text across GUI-scale/resolution changes.
+        for (int[] panel : new int[][]{{116, 39}, {116, 30}, {400, 39}}) {
+            for (int[] screen : new int[][]{{1, 1}, {64, 32}, {320, 180}, {854, 480}, {3440, 1440}}) {
+                for (boolean right : new boolean[]{false, true}) {
+                    for (boolean bottom : new boolean[]{false, true}) {
+                        for (double requested : new double[]{0.5, 1.0, 3.0}) {
+                            for (int offset : new int[]{-10000, 0, 10000}) {
+                                HudLayout.Placement p = HudLayout.place(screen[0], screen[1], panel[0], panel[1],
+                                        requested, right, bottom, offset, offset);
+                                if (!Double.isFinite(p.scale()) || p.scale() <= 0 || p.scale() > requested
+                                        || p.x() < 0 || p.y() < 0 || p.x() + panel[0] * p.scale() > screen[0] + 1e-6
+                                        || p.y() + panel[1] * p.scale() > screen[1] + 1e-6) {
+                                    throw new AssertionError("Resized HUD outside screen: " + p);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         System.out.println("HUD layout checks passed: corners, offsets, scales, screen bounds and opacity.");
     }
 
