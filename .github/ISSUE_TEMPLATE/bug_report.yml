@@ -1,0 +1,90 @@
+name: "Bug report / 不具合報告"
+description: "Report a problem with the HUD / HUDの不具合を報告"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        English or Japanese is welcome. Please check existing issues first.
+        英語・日本語のどちらでも報告できます。既存のIssueも確認してください。
+        All issues and attachments are public. Remove passwords, tokens, server addresses and personal details from logs.
+        Issueと添付は公開されます。ログのパスワード・トークン・サーバーアドレス・個人情報は削除してください。
+  - type: input
+    id: hud_version
+    attributes:
+      label: "Quest Progress HUD version / HUDのバージョン"
+      description: "Use the version from the jar filename or Mods screen. Unknown is okay. / jar名やMods画面で確認。不明でも構いません。"
+      placeholder: "0.0.9"
+    validations:
+      required: true
+  - type: input
+    id: minecraft_version
+    attributes:
+      label: "Minecraft version / Minecraftのバージョン"
+      description: "Exact version, if known. / 分かる範囲で正確なバージョン。"
+      placeholder: "1.21.1"
+    validations:
+      required: true
+  - type: input
+    id: loader_version
+    attributes:
+      label: "Mod loader and version / ローダーとバージョン"
+      description: "For example NeoForge 21.1.251. Write unknown if unavailable. / 例：NeoForge 21.1.251。不明なら不明と記載。"
+      placeholder: "NeoForge 21.1.251"
+    validations:
+      required: true
+  - type: input
+    id: ftb_version
+    attributes:
+      label: "FTB Quests version / FTB Questsのバージョン"
+      description: "From the Mods screen or jar filename; unknown is okay. / Mods画面やjar名で確認。不明でも構いません。"
+      placeholder: "2101.1.36"
+    validations:
+      required: true
+  - type: input
+    id: modpack
+    attributes:
+      label: "Modpack and version / MODパックとバージョン"
+      description: "For a custom setup, write custom. / 自作環境ならcustomと記載。"
+      placeholder: "All the Mods 10 v8.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: "Play environment / プレイ環境"
+      options:
+        - "Singleplayer / シングルプレイ"
+        - "Multiplayer server / マルチプレイサーバー"
+        - "LAN world / LAN公開ワールド"
+        - "Other or unknown / その他・不明"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to reproduce / 再現手順"
+      description: "Describe what you did, and whether it happens every time. / 行った操作と、毎回発生するかを記載。"
+      placeholder: "1. Enter a world / ワールドに入る\n2. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected behavior / 期待した動作"
+      description: "What should have happened? / どう動くはずでしたか？"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Actual behavior / 実際の動作"
+      description: "What happened instead? / 実際にはどうなりましたか？"
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: "Screenshots, logs and settings / スクショ・ログ・設定"
+      description: "Optional: attach a screenshot or relevant latest.log/crash-report excerpt. For layout issues, include GUI scale, window size and HUD settings. Remove private information. / 任意：スクショや関連ログ。表示の問題はGUI倍率・画面サイズ・HUD設定も。個人情報は削除してください。"
+    validations:
+      required: false

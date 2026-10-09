@@ -71,6 +71,10 @@ This is an initial public beta. Other modpacks and the full range of multiplayer
 
 Report problems through [GitHub Issues](https://github.com/keisuke111/quest-progress-hud/issues). Include the mod, Minecraft, NeoForge and FTB Quests versions, the modpack version, reproduction steps, and a relevant screenshot or log excerpt.
 
+## Contributing
+
+Bug reports and feature requests can use the [issue templates](https://github.com/keisuke111/quest-progress-hud/issues/new/choose). English and Japanese are welcome. For pull requests and development checks, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 All Rights Reserved. See [LICENSE](LICENSE). This matches the license declared in the mod metadata.

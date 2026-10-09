@@ -1,0 +1,29 @@
+name: "Feature request / 機能要望"
+description: "Suggest an improvement / 改善や機能追加を提案"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        English or Japanese is welcome. Please check existing issues first.
+        英語・日本語のどちらでも構いません。既存のIssueも確認してください。
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problem or use case / 困っていること・用途"
+      description: "Describe the situation you want to improve. / 改善したい場面を教えてください。"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: "Suggested behavior / 希望する動作"
+      description: "Describe how the HUD could help. / HUDがどう動くと便利ですか？"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives and examples / 代案・参考例"
+      description: "Optional: other solutions, sketches or screenshots. / 任意：別の方法や図・スクショ。"
+    validations:
+      required: false

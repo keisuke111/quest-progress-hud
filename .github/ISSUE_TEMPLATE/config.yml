@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "Installation and HUD settings / 導入方法・HUD設定"
+    url: "https://github.com/keisuke111/quest-progress-hud#readme"
+    about: "Check compatibility, installation, settings and counting rules / 対応環境・導入・設定・数え方を確認"
