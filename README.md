@@ -73,7 +73,7 @@ Report problems through [GitHub Issues](https://github.com/keisuke111/quest-prog
 
 ## License
 
-All Rights Reserved, as declared in the mod metadata.
+All Rights Reserved. See [LICENSE](LICENSE). This matches the license declared in the mod metadata.
 
 ## Development
 

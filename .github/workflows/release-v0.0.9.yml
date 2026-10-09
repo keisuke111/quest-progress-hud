@@ -1,9 +1,6 @@
 name: Publish v0.0.9 beta
 
 on:
-  push:
-    branches: [main]
-    paths: ['releases/v0.0.9.md', '.github/workflows/release-v0.0.9.yml']
   workflow_dispatch:
 
 permissions:
