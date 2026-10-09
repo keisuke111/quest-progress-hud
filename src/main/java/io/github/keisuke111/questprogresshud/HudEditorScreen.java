@@ -43,16 +43,16 @@ final class HudEditorScreen extends Screen {
     // Dock opposite the HUD so bottom-corner layouts can still be grabbed.
     private void positionControls() {
         HudLayout.Placement p = state.placement(width, height, hud.hudRow());
-        controlsY = p.y() + hud.hudRow().height() * p.scale() / 2 > height / 2.0 ? 8 : height - 106;
+        controlsY = p.y() + hud.hudRow().height() * p.scale() / 2 > height / 2.0 ? 2 : height - 78;
         controlsY = Math.max(0, controlsY);
         int x = Math.max(0, (width - 260) / 2);
         scaleDown.setPosition(x + 2, controlsY + 30);
         scaleUp.setPosition(x + 110, controlsY + 30);
         opacityDown.setPosition(x + 136, controlsY + 30);
         opacityUp.setPosition(x + 240, controlsY + 30);
-        reset.setPosition(x + 2, controlsY + 80);
-        cancel.setPosition(x + 90, controlsY + 80);
-        save.setPosition(x + 178, controlsY + 80);
+        reset.setPosition(x + 2, controlsY + 54);
+        cancel.setPosition(x + 90, controlsY + 54);
+        save.setPosition(x + 178, controlsY + 54);
     }
 
     @Override
@@ -71,12 +71,12 @@ final class HudEditorScreen extends Screen {
         int right = (int) Math.ceil(p.x() + row.width() * p.scale());
         int bottom = (int) Math.ceil(p.y() + row.height() * p.scale());
         graphics.renderOutline(left, top, right - left, bottom - top, state.dragging() ? 0xFF8BE18B : 0xFFFFFFFF);
+        if (state.dragging()) return;
         int x = Math.max(0, (width - 260) / 2);
-        graphics.fill(x, controlsY, Math.min(width, x + 262), Math.min(height, controlsY + 104), 0xD014171A);
-        graphics.drawCenteredString(font, title, x + 131, controlsY + 5, 0xFFFFFF);
+        graphics.fill(x, controlsY, Math.min(width, x + 262), Math.min(height, controlsY + 76), 0xD014171A);
+        graphics.drawCenteredString(font, Component.translatable("quest_progress_hud.editor.drag"), x + 131, controlsY + 5, 0xFFFFFF);
         graphics.drawCenteredString(font, Component.translatable("quest_progress_hud.editor.scale", String.format(Locale.ROOT, "%.2f", state.draft().scale())), x + 66, controlsY + 18, 0xFFFFFF);
         graphics.drawCenteredString(font, Component.translatable("quest_progress_hud.editor.opacity", state.draft().opacity()), x + 198, controlsY + 18, 0xFFFFFF);
-        graphics.drawCenteredString(font, Component.translatable("quest_progress_hud.editor.drag"), x + 131, controlsY + 58, 0xDDDDDD);
         super.render(graphics, mouseX, mouseY, partialTick);
     }
 
