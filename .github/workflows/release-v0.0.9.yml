@@ -3,7 +3,7 @@ name: Publish v0.0.9 beta
 on:
   push:
     branches: [main]
-    paths: ['releases/v0.0.9.md']
+    paths: ['releases/v0.0.9.md', '.github/workflows/release-v0.0.9.yml']
   workflow_dispatch:
 
 permissions:
@@ -51,19 +51,28 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if gh release view v0.0.9 >/dev/null 2>&1; then
-            echo '::error::v0.0.9 already exists. Inspect it before attempting another publication.'
-            exit 1
+          release_id=$(gh api "repos/$GH_REPO/releases" --jq '.[] | select(.tag_name == "v0.0.9") | .id')
+          if [ -n "$release_id" ]; then
+            is_draft=$(gh api "repos/$GH_REPO/releases/$release_id" --jq '.draft')
+            test "$is_draft" = true
+            target=$(gh api "repos/$GH_REPO/releases/$release_id" --jq '.target_commitish')
+            test "$target" = 'a4385b04aade12e01c511d516fb268862a225246'
+            echo "Resuming verified v0.0.9 draft $release_id"
+          else
+            gh release create v0.0.9 dist/quest-progress-hud-0.0.9.jar \
+              --target "$GITHUB_SHA" --title 'Quest Progress HUD v0.0.9 (Beta)' \
+              --notes-file releases/v0.0.9.md --prerelease --draft
+            release_id=$(gh api "repos/$GH_REPO/releases" --jq '.[] | select(.tag_name == "v0.0.9" and .draft == true) | .id')
           fi
-          gh release create v0.0.9 dist/quest-progress-hud-0.0.9.jar \
-            --target "$GITHUB_SHA" --title 'Quest Progress HUD v0.0.9 (Beta)' \
-            --notes-file releases/v0.0.9.md --prerelease --draft
+          test -n "$release_id"
+          echo "RELEASE_ID=$release_id" >> "$GITHUB_ENV"
 
       - name: Verify uploaded asset and publish beta
         shell: bash
         run: |
           set -euo pipefail
-          digest=$(gh api "repos/$GH_REPO/releases/tags/v0.0.9" --jq '.assets[] | select(.name == "quest-progress-hud-0.0.9.jar") | .digest')
+          digest=$(gh api "repos/$GH_REPO/releases/$RELEASE_ID" --jq '.assets[] | select(.name == "quest-progress-hud-0.0.9.jar") | .digest')
           test "$digest" = 'sha256:59e58c6da12ac44999972371c151dcd6990e5ca6fc0ec8c831ef48aab24dfe42'
-          gh release edit v0.0.9 --draft=false --prerelease --latest=false
-          gh release view v0.0.9 --json url,isDraft,isPrerelease
+          gh api --method PATCH "repos/$GH_REPO/releases/$RELEASE_ID" \
+            -F draft=false -F prerelease=true -f make_latest=false \
+            --jq '{url: .html_url, draft: .draft, prerelease: .prerelease}'
