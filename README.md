@@ -6,7 +6,9 @@ A small client-side Minecraft HUD that shows your team's FTB Quests progress wit
 
 This branch adds a HUD layout editor and is pending in-game verification. The published v0.0.9 beta remains available unchanged.
 
-This focused branch also adds **Select chapter** under the mod's Config entry. Choose **All quests** (default) or a chapter, then **Save**. Cancel/Escape discards the selection. The picker uses chapter titles and pages; tooltips show full title, group and stable ID to distinguish duplicates. Chapter IDs are stored in the client config, globally for this Minecraft instance. On another quest file where the ID is missing, the HUD displays **Chapter unavailable** until you select a chapter or All quests. The picker waits for world/team sync; All quests remains selectable. Long HUD chapter titles are shortened to keep the compact layout readable.
+This combined preview also adds **Select chapter** under the mod's Config entry. Choose **All quests** (default) or a chapter, then **Save**. Cancel/Escape discards the selection. The picker uses chapter titles and pages; tooltips show full title, group and stable ID to distinguish duplicates. Chapter IDs are stored in the client config, globally for this Minecraft instance. On another quest file where the ID is missing, the HUD displays **Chapter unavailable** until you select a chapter or All quests. The picker waits for world/team sync; All quests remains selectable. Long HUD chapter titles are shortened to keep the compact layout readable.
+
+This combined preview also adds **Toggle quest HUD** under **Options → Controls → Key Binds → Quest Progress HUD**. The key starts unassigned. Bind a key there to switch the existing Show HUD setting while playing; the visibility change is saved across restarts. Holding the key toggles once, and input in chat, menus, the editor or an inactive window is discarded. F1 continues to hide the whole game HUD without changing this setting. The key assignment is stored by Minecraft in `options.txt`.
 
 ## Compact HUD
 

@@ -149,3 +149,16 @@ tasks.register('verifyQuestScope', JavaExec) {
 tasks.named('check') {
     dependsOn tasks.named('verifyQuestScope')
 }
+
+
+tasks.register('verifyHudToggle', JavaExec) {
+    group = 'verification'
+    description = 'Check single presses, held-key repeats and input outside gameplay.'
+    dependsOn tasks.named('layoutCheckClasses')
+    classpath = sourceSets.layoutCheck.runtimeClasspath
+    mainClass = 'io.github.keisuke111.questprogresshud.HudToggleInputTest'
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyHudToggle')
+}

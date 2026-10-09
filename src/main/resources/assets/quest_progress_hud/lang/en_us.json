@@ -38,5 +38,7 @@
   "quest_progress_hud.chapter.selected": "Selected: %s",
   "quest_progress_hud.chapter.page": "%s / %s",
   "hud.quest_progress_hud.chapter": "Chapter",
-  "hud.quest_progress_hud.chapter_unavailable": "Chapter unavailable"
+  "hud.quest_progress_hud.chapter_unavailable": "Chapter unavailable",
+  "key.categories.quest_progress_hud": "Quest Progress HUD",
+  "key.quest_progress_hud.toggle": "Toggle quest HUD"
 }
