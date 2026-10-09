@@ -16,12 +16,14 @@ public final class HudConfigTest {
                 expect(config.get("enabled").equals(true) && config.get("anchor").toString().equals("TOP_LEFT")
                         && number(config, "offsetX") == 0 && number(config, "offsetY") == 0
                         && number(config, "scale") == 1.0 && number(config, "backgroundOpacity") == 72, "Existing defaults preserved");
+                expect(config.get("chapterId").equals(""), "Existing installs default to all registered quests");
                 config.set("enabled", false);
                 config.set("anchor", "BOTTOM_RIGHT");
                 config.set("offsetX", 67);
                 config.set("offsetY", -12);
                 config.set("scale", 1.5);
                 config.set("backgroundOpacity", 43);
+                config.set("chapterId", "FFFFFFFFFFFFFFFF");
                 config.save();
             }
             try (CommentedFileConfig config = CommentedFileConfig.builder(path).sync().build()) {
@@ -30,20 +32,23 @@ public final class HudConfigTest {
                 expect(config.get("enabled").equals(false) && config.get("anchor").toString().equals("BOTTOM_RIGHT")
                         && number(config, "offsetX") == 67 && number(config, "offsetY") == -12
                         && number(config, "scale") == 1.5 && number(config, "backgroundOpacity") == 43, "All settings survive file reload");
+                expect(config.get("chapterId").equals("FFFFFFFFFFFFFFFF"), "Stable chapter ID survives restart");
                 config.set("anchor", "INVALID");
                 config.set("offsetX", 99999);
                 config.set("offsetY", -99999);
                 config.set("scale", 99.0);
                 config.set("backgroundOpacity", -1);
+                config.set("chapterId", "chapter-title-is-not-an-id");
                 expect(!HudConfig.SPEC.isCorrect(config), "Invalid config detected");
                 HudConfig.SPEC.correct(config);
                 expect(HudConfig.SPEC.isCorrect(config), "Invalid config repaired");
+                expect(config.get("chapterId").equals(""), "Malformed chapter setting corrected to all quests");
                 expect(config.get("anchor").toString().equals("TOP_LEFT")
                         && Math.abs(number(config, "offsetX")) <= 10000 && Math.abs(number(config, "offsetY")) <= 10000
                         && number(config, "scale") >= 0.5 && number(config, "scale") <= 3.0
                         && number(config, "backgroundOpacity") >= 0, "Repaired values stay within supported ranges");
             }
-            System.out.println("HUD config checks passed: defaults, all six persisted settings, reload and invalid-value correction.");
+            System.out.println("HUD config checks passed: existing defaults, seven persisted settings, chapter IDs, reload and invalid-value correction.");
         } finally {
             Files.deleteIfExists(path);
             Files.deleteIfExists(directory);
