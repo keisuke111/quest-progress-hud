@@ -75,6 +75,10 @@ Report problems through [GitHub Issues](https://github.com/keisuke111/quest-prog
 
 Bug reports and feature requests can use the [issue templates](https://github.com/keisuke111/quest-progress-hud/issues/new/choose). English and Japanese are welcome. For pull requests and development checks, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Security
+
+See [SECURITY.md](SECURITY.md) for private vulnerability reporting and the [dependency security assessment](docs/DEPENDENCY_SECURITY.md) for known unresolved platform and build-tool alerts.
+
 ## License
 
 All Rights Reserved. See [LICENSE](LICENSE). This matches the license declared in the mod metadata.

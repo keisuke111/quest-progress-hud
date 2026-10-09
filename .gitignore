@@ -35,3 +35,7 @@ run/
 **/src/generated/**/.cache/
 repo/
 !**/src/**/repo/
+
+### Dependency audit reports ###
+/dependency-provenance.txt
+/dependency-graph-reports/
