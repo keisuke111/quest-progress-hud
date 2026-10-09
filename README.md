@@ -1,76 +1,80 @@
 # Quest Progress HUD
 
-A lightweight Minecraft HUD mod that displays FTB Quests progress without opening the quest screen.
+A small client-side Minecraft HUD that shows your team's FTB Quests progress without opening the quest book.
 
-## Current status
-
-**v0.0.7 – Framed compact HUD with an experience-style gauge**
-
-The compact panel renders:
+## v0.0.9 — Public beta
 
 ```text
-Quests       10.1%
-482 / 4790
-[progress bar]
+Quests    508 / 4790    10.6%
+[thin progress bar]
 ```
 
-in the top-left corner while playing in a world, using Minecraft's font.
-A translucent dark background with a thin, subtle beveled frame keeps the text
-readable. Tighter spacing gives the panel a compact shape. The percentage uses
-a soft green accent; the total count uses gray. The progress gauge has a dark
-inset track, green highlights and small notches inspired by Minecraft's experience bar.
-It still represents quest completion, not player experience.
-The panel expands horizontally for longer counts, and hides the percentage and
-bar until quest data is loaded.
+The compact HUD uses Minecraft's font, a translucent dark background, a subtle rectangular frame, and a soft green progress bar. Counts and percentage share one line. The total count is gray.
 
-The values are read from the client's synced FTB Quests data and refreshed once per second.
-The percentage is completed / total × 100, rounded to one decimal place (0.0% when total is zero).
-While quest data is syncing, the panel shows `Quests` and `Loading...`.
+- Completed quests, total quests, and a percentage rounded to one decimal place.
+- Progress refreshed once per second while the HUD is visible.
+- `Loading...` until both quest definitions and team progress have synced.
+- Display on/off, four screen corners, horizontal/vertical offsets, size, and background opacity.
+- Settings persist across launches. Positions are clamped to the screen, and the HUD shrinks to fit small screens.
 
-Quest counting is unchanged from v0.0.3: the denominator counts every registered Quest,
-including hidden, repeatable, and internal quests. No filtering is applied yet.
+## Compatibility
+
+| Component | Target / tested version |
+| --- | --- |
+| Minecraft | 1.21.1 |
+| Mod loader | NeoForge 21.1.251 or newer within Minecraft 1.21.1 |
+| FTB Quests | Built and tested with 2101.1.36 |
+| Primary test environment | All the Mods 10 v8.2 |
+
+This HUD is installed on the client. FTB Quests and its required dependencies must already be installed in the environment, with quest data available to the client.
+
+The jar declares FTB Quests 2101.1.0+ as a dependency; that is not a claim that every version has been tested. Other Minecraft versions, Forge, Fabric, and other modpacks are not yet verified.
+
+## Download and installation
+
+1. Open [Releases](https://github.com/keisuke111/quest-progress-hud/releases) and choose **v0.0.9 (Beta)**. Download `quest-progress-hud-0.0.9.jar` from Assets.
+2. Close Minecraft and put the jar in your instance's `mods` folder.
+3. Remove older Quest Progress HUD jars from that folder, keeping only one version.
+4. Start the game and enter a world. The HUD appears after quest and team data sync.
+
+Development builds are also available as artifacts on successful [Build workflow runs](https://github.com/keisuke111/quest-progress-hud/actions/workflows/build.yml).
 
 ## HUD settings
 
-Open **Mods → Quest Progress HUD → Config** and edit the client settings.
-Close the settings with **Done** to save; the HUD uses the updated values when
-you return to the world, without restarting. Settings persist across launches
-in `config/quest_progress_hud-client.toml` within the instance.
+Open **Mods → Quest Progress HUD → Config**. Save with **Done**, then return to the world.
 
-| Setting | Default | Options |
+| Setting | Default | Range / options |
 | --- | --- | --- |
 | Show HUD | On | On / Off |
 | Screen corner | Top left | All four corners |
 | Horizontal / vertical offset | 0 | -10000 to 10000 GUI pixels |
 | HUD size | 1.0 | 0.5 to 3.0, relative to Minecraft GUI scale |
-| Background opacity | 72% | 0% (transparent) to 100% (opaque) |
+| Background opacity | 72% | 0% to 100% |
 
-Positive offsets move inward from the selected edges, starting at the default
-8 GUI-pixel margin. Positions are clamped to the screen. If the selected size
-cannot fit on a small screen, the HUD automatically shrinks to fit.
-The v0.0.6 display settings and saved configuration remain compatible.
-The frame fades with background opacity and disappears at 0%. Settings labels and help are available
-in English and Japanese; the HUD keeps its original English labels.
+Positive offsets move inward from the selected edges, starting at an 8 GUI-pixel margin. The frame fades with background opacity. F1 hides the HUD with the rest of the game interface.
 
-## Target
+Settings are stored in `config/quest_progress_hud-client.toml` inside the instance. Existing v0.0.6–v0.0.8 settings remain compatible. Settings labels and help are available in English and Japanese; HUD labels remain in English.
 
-- Minecraft 1.21.1
-- NeoForge 21.1.251+
-- FTB Quests 2101.1.36 (compile target)
-- Primary test environment: All the Mods 10 v8.2
+## What the numbers mean
 
-## Download a test build
+- **Total:** every registered FTB Quest, including hidden, optional, repeatable, and internal quests. No filtering is applied.
+- **Completed:** quests marked completed in the currently synced team's data. This is team progress, not a separate personal counter. Repeatable quests are counted as one quest according to their current completion state, not by the number of times repeated.
+- **Percentage:** completed / total × 100, shown to one decimal place. An empty quest file displays 0 / 0 and 0.0%.
 
-1. Open the **Actions** tab on GitHub.
-2. Open the latest successful **Build** workflow.
-3. Download the `quest-progress-hud` artifact.
-4. Extract the ZIP.
-5. Put `quest-progress-hud-0.0.7.jar` into the ATM10 instance's `mods` folder.
-6. Remove any older Quest Progress HUD jar.
-7. Start ATM10 and enter a world.
+The static quest definitions in ATM10 v8.2 contain 4,790 quests. Your total can differ if the pack or its quest definitions change. Hidden quests are not automatically excluded, and visibility alone does not establish whether a quest is internal-only or reachable.
+
+## Validation and feedback
+
+The v0.0.9 build passed automated checks for layout bounds and text spacing, settings-file persistence and invalid-value correction, one-second refresh timing, sync state, disconnects, and changing world/team data. Several hours of gameplay in the primary environment were reported without observed issues.
+
+This is an initial public beta. Other modpacks and the full range of multiplayer/team transitions still need broader in-game testing.
+
+Report problems through [GitHub Issues](https://github.com/keisuke111/quest-progress-hud/issues). Include the mod, Minecraft, NeoForge and FTB Quests versions, the modpack version, reproduction steps, and a relevant screenshot or log excerpt.
+
+## License
+
+All Rights Reserved, as declared in the mod metadata.
 
 ## Development
 
-The project is based on the official NeoForge 1.21.1 ModDevGradle MDK.
-
-This repository is currently in early development.
+Java 21, NeoForge ModDevGradle, and Gradle 9.2.1. Run `gradle build` to compile the mod and run the verification checks. The project is based on the official NeoForge 1.21.1 ModDevGradle MDK.
