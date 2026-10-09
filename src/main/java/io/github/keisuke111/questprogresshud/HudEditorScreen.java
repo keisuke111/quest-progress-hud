@@ -24,9 +24,7 @@ final class HudEditorScreen extends Screen {
         super(Component.translatable("quest_progress_hud.editor.title"));
         this.parent = parent;
         this.hud = hud;
-        HudConfig.Anchor anchor = HudConfig.ANCHOR.get();
-        state = new HudEditorState(new HudEditorState.Settings(anchor.right, anchor.bottom,
-                HudConfig.OFFSET_X.get(), HudConfig.OFFSET_Y.get(), HudConfig.SCALE.get(), HudConfig.BACKGROUND_OPACITY.get()));
+        state = new HudEditorState(HudConfig.readLayout());
     }
 
     @Override
@@ -111,15 +109,7 @@ final class HudEditorScreen extends Screen {
     }
 
     private void save() {
-        HudEditorState.Settings draft = state.draft();
-        for (HudConfig.Anchor anchor : HudConfig.Anchor.values()) {
-            if (anchor.right == draft.right() && anchor.bottom == draft.bottom()) HudConfig.ANCHOR.set(anchor);
-        }
-        HudConfig.OFFSET_X.set(draft.offsetX());
-        HudConfig.OFFSET_Y.set(draft.offsetY());
-        HudConfig.SCALE.set(draft.scale());
-        HudConfig.BACKGROUND_OPACITY.set(draft.opacity());
-        HudConfig.SPEC.save();
+        HudConfig.saveLayout(state.draft());
         onClose();
     }
 
