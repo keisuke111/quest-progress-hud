@@ -6,6 +6,8 @@ A small client-side Minecraft HUD that shows your team's FTB Quests progress wit
 
 This branch adds a HUD layout editor and is pending in-game verification. The published v0.0.9 beta remains available unchanged.
 
+This focused branch also adds **Toggle quest HUD** under **Options → Controls → Key Binds → Quest Progress HUD**. The key starts unassigned. Bind a key there to switch the existing Show HUD setting while playing; the visibility change is saved across restarts. Holding the key toggles once, and input in chat, menus, the editor or an inactive window is discarded. F1 continues to hide the whole game HUD without changing this setting. The key assignment is stored by Minecraft in `options.txt`.
+
 ## Compact HUD
 
 ```text

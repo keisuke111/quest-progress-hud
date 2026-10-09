@@ -29,5 +29,7 @@
   "quest_progress_hud.editor.opacity": "背景: %s%%",
   "quest_progress_hud.editor.drag": "HUDをドラッグして移動",
   "quest_progress_hud.editor.reset": "リセット",
-  "quest_progress_hud.editor.save": "保存"
+  "quest_progress_hud.editor.save": "保存",
+  "key.categories.quest_progress_hud": "Quest Progress HUD",
+  "key.quest_progress_hud.toggle": "クエストHUDの表示切り替え"
 }
