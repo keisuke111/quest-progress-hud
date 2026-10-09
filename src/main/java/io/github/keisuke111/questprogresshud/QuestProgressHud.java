@@ -21,6 +21,7 @@ import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -62,10 +63,24 @@ public final class QuestProgressHud {
         while (toggleKey.consumeClick()) clicked = true;
         boolean allowed = minecraft.player != null && minecraft.level != null
                 && minecraft.getConnection() != null && minecraft.screen == null && minecraft.isWindowActive();
-        if (toggleInput.update(toggleKey.isDown(), clicked, allowed)) {
+        if (toggleInput.update(togglePhysicallyDown(minecraft), clicked, allowed)) {
             HudConfig.ENABLED.set(!HudConfig.ENABLED.get());
             HudConfig.SPEC.save();
         }
+    }
+
+    private boolean togglePhysicallyDown(Minecraft minecraft) {
+        // IN_GAME makes KeyMapping.isDown() false in menus even if the physical key is held.
+        // Poll independently so closing a menu cannot turn that held input into a fresh press.
+        InputConstants.Key key = toggleKey.getKey();
+        if (key.getValue() < 0) return false;
+        if (key.getType() == InputConstants.Type.KEYSYM) {
+            return InputConstants.isKeyDown(minecraft.getWindow().getWindow(), key.getValue());
+        }
+        if (key.getType() == InputConstants.Type.MOUSE) {
+            return GLFW.glfwGetMouseButton(minecraft.getWindow().getWindow(), key.getValue()) == GLFW.GLFW_PRESS;
+        }
+        return toggleKey.isDown();
     }
 
     private void onRenderGui(RenderGuiEvent.Post event) {
