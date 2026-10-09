@@ -17,6 +17,7 @@ final class ChapterSettingsScreen extends Screen {
     private record Choice(String id, String title, String group) {}
     private static final UUID UNSYNCED_TEAM = new UUID(0, 0);
     private final Screen parent;
+    private final QuestProgressHud hud;
     private String selected = QuestScope.normalize(HudConfig.CHAPTER_ID.get());
     private List<Choice> choices = List.of();
     private boolean ready;
@@ -24,9 +25,10 @@ final class ChapterSettingsScreen extends Screen {
     private int rows;
     private int ticks;
 
-    ChapterSettingsScreen(Screen parent) {
+    ChapterSettingsScreen(Screen parent, QuestProgressHud hud) {
         super(Component.translatable("quest_progress_hud.chapter.title"));
         this.parent = parent;
+        this.hud = hud;
     }
 
     @Override
@@ -39,7 +41,7 @@ final class ChapterSettingsScreen extends Screen {
         BaseQuestFile file = FTBQuestsClient.getClientQuestFile();
         TeamData team = file != null && FTBQuestsClient.isClientDataLoaded() ? FTBQuestsClient.getClientPlayerData() : null;
         boolean synced = minecraft.player != null && minecraft.level != null && minecraft.getConnection() != null
-                && team != null && !UNSYNCED_TEAM.equals(team.getTeamId());
+                && team != null && !UNSYNCED_TEAM.equals(team.getTeamId()) && hud.canReadQuestFile(file);
         List<Choice> updated = new ArrayList<>();
         if (synced) {
             file.forAllChapters(chapter -> updated.add(new Choice(chapter.getCodeString(), chapter.getTitle().getString(),

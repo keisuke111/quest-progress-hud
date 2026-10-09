@@ -34,7 +34,7 @@ final class HudSettingsScreen extends Screen {
                 button -> minecraft.setScreen(new ConfigurationScreen(container, this)))
                 .bounds(x, y + 26, buttonWidth, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("quest_progress_hud.chapter.open"),
-                button -> minecraft.setScreen(new ChapterSettingsScreen(this)))
+                button -> minecraft.setScreen(new ChapterSettingsScreen(this, hud)))
                 .bounds(x, y + 52, buttonWidth, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("gui.done"), button -> onClose())
                 .bounds(x, y + 86, buttonWidth, 20).build());

@@ -36,12 +36,14 @@ public final class ProgressTrackerTest {
         t.update(1_000_000_006L, connection, world, file, team, true, COUNT);
         expect(samples == 5, "Dimension/world replacement");
         t.disconnect(file);
+        expect(!t.acceptsFile(file) && !t.acceptsFile(null), "Chapter picker cannot inspect a stale disconnected file");
         connection = new Object(); world = new Object();
         expect(t.update(1_000_000_007L, connection, world, file, team, true, COUNT) == null && samples == 5,
                 "Old FTB file cannot appear on another server");
         t.clear(); // Disabled HUD must not discard the disconnect fence.
         expect(t.update(1_000_000_008L, connection, world, file, team, true, COUNT) == null, "Fence survives hiding");
         file = new Object();
+        expect(t.acceptsFile(file), "Fresh quest file can populate chapter choices after sync");
         expect(t.update(1_000_000_009L, connection, world, file, null, false, COUNT) == null, "New file still needs team sync");
         expect(t.update(1_000_000_010L, connection, world, file, team, true, COUNT) != null && samples == 6, "New server sync");
         t.clear();

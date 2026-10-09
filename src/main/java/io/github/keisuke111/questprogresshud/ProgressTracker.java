@@ -19,7 +19,7 @@ final class ProgressTracker {
             disconnect(file);
             return null;
         }
-        if (!ready || file == null || team == null || file == disconnectedFile) {
+        if (!ready || team == null || !acceptsFile(file)) {
             clear();
             return null;
         }
@@ -33,6 +33,10 @@ final class ProgressTracker {
             lastSample = now;
         }
         return snapshot;
+    }
+
+    boolean acceptsFile(Object currentFile) {
+        return currentFile != null && currentFile != disconnectedFile;
     }
 
     void disconnect(Object currentFile) {

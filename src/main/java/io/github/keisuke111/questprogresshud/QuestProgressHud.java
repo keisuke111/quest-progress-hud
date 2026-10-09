@@ -73,6 +73,10 @@ public final class QuestProgressHud {
                 minecraft.font.width(percentageText), minecraft.font.lineHeight, progressLoaded);
     }
 
+    boolean canReadQuestFile(BaseQuestFile file) {
+        return tracker.acceptsFile(file);
+    }
+
     void renderHud(GuiGraphics graphics, HudLayout.Placement placement, int opacity) {
         Minecraft minecraft = Minecraft.getInstance();
         int x = 0;
@@ -142,7 +146,7 @@ public final class QuestProgressHud {
         }
         boolean fileReady = file != null && FTBQuestsClient.isClientDataLoaded();
         TeamData team = fileReady ? FTBQuestsClient.getClientPlayerData() : null;
-        boolean ready = team != null && !UNSYNCED_TEAM.equals(team.getTeamId());
+        boolean ready = team != null && !UNSYNCED_TEAM.equals(team.getTeamId()) && canReadQuestFile(file);
         String scope = QuestScope.normalize(HudConfig.CHAPTER_ID.get());
         long chapterId = QuestScope.id(scope);
         if (!scope.equals(selectedScope)) {
