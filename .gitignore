@@ -39,3 +39,10 @@ repo/
 ### Dependency audit reports ###
 /dependency-provenance.txt
 /dependency-graph-reports/
+
+### Root-level game/JVM diagnostics ###
+/logs/
+/crash-reports/
+/hs_err_pid*.log
+/replay_pid*.log
+/*.hprof

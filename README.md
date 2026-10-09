@@ -2,13 +2,11 @@
 
 A small client-side Minecraft HUD that shows your team's FTB Quests progress without opening the quest book.
 
-## v0.0.10 — Development preview
+## v0.0.10 — Beta release preparation
 
-This branch adds a HUD layout editor and is pending in-game verification. The published v0.0.9 beta remains available unchanged.
+The next beta includes live HUD layout editing, an optional visibility key, and chapter selection. The author has confirmed the three features in-game. v0.0.10 is being prepared for publication; this branch does not publish a release.
 
-This combined preview also adds **Select chapter** under the mod's Config entry. Choose **All quests** (default) or a chapter, then **Save**. Cancel/Escape discards the selection. The picker uses chapter titles and pages; tooltips show full title, group and stable ID to distinguish duplicates. Chapter IDs are stored in the client config, globally for this Minecraft instance. On another quest file where the ID is missing, the HUD displays **Chapter unavailable** until you select a chapter or All quests. The picker waits for world/team sync; All quests remains selectable. Long HUD chapter titles are shortened to keep the compact layout readable.
-
-This combined preview also adds **Toggle quest HUD** under **Options → Controls → Key Binds → Quest Progress HUD**. The key starts unassigned. Bind a key there to switch the existing Show HUD setting while playing; the visibility change is saved across restarts. Holding the key toggles once, and input in chat, menus, the editor or an inactive window is discarded. F1 continues to hide the whole game HUD without changing this setting. The key assignment is stored by Minecraft in `options.txt`.
+See [CHANGELOG.md](CHANGELOG.md) for changes and [release notes](releases/v0.0.10.md) for the publication draft.
 
 ## Compact HUD
 
@@ -40,7 +38,7 @@ The jar declares FTB Quests 2101.1.0+ as a dependency; that is not a claim that 
 
 ## Download and installation
 
-1. Open [Releases](https://github.com/keisuke111/quest-progress-hud/releases) and choose **v0.0.9 (Beta)**. Download `quest-progress-hud-0.0.9.jar` from Assets.
+1. Open [Releases](https://github.com/keisuke111/quest-progress-hud/releases) and choose an available beta for Minecraft 1.21.1 / NeoForge. Download its `quest-progress-hud-<version>.jar` from Assets. v0.0.10 will appear there after publication.
 2. Close Minecraft and put the jar in your instance's `mods` folder.
 3. Remove older Quest Progress HUD jars from that folder, keeping only one version.
 4. Start the game and enter a world. The HUD appears after quest and team data sync.
@@ -60,24 +58,33 @@ Choose **Numeric HUD settings** for the existing visibility, corner and exact of
 | Horizontal / vertical offset | 0 | -10000 to 10000 GUI pixels |
 | HUD size | 1.0 | 0.5 to 3.0, relative to Minecraft GUI scale |
 | Background opacity | 72% | 0% to 100% |
+| Quest scope | All quests | All quests / one chapter |
 
 Positive offsets move inward from the selected edges, starting at an 8 GUI-pixel margin. The frame fades with background opacity. F1 hides the HUD with the rest of the game interface.
 
 Settings are stored in `config/quest_progress_hud-client.toml` inside the instance. Existing v0.0.6–v0.0.9 settings remain compatible. Settings labels and help are available in English and Japanese; HUD labels remain in English.
 
+## Chapter selection
+
+Choose **Select chapter** under the mod's Config entry. Choose **All quests** (default) or a chapter, then **Save**. Cancel/Escape discards the selection. The picker uses chapter titles and pages; tooltips show full title, group and stable ID to distinguish duplicates. Chapter IDs are stored in the client config, globally for this Minecraft instance. On another quest file where the ID is missing, the HUD displays **Chapter unavailable** until you select a chapter or All quests. The picker waits for world/team sync; All quests remains selectable. Long HUD chapter titles are shortened to keep the compact layout readable.
+
+## Visibility key
+
+Find **Toggle quest HUD** under **Options → Controls → Key Binds → Quest Progress HUD**. The key starts unassigned. Bind a key there to switch the existing Show HUD setting while playing; the visibility change is saved across restarts. Holding the key toggles once, and input in chat, menus, the editor or an inactive window is discarded. F1 continues to hide the whole game HUD without changing this setting. The key assignment is stored by Minecraft in `options.txt`.
+
 ## What the numbers mean
 
 - **Total:** every registered FTB Quest in the selected scope: the entire file for All quests, or the selected chapter. Hidden, optional, repeatable, and internal quests remain included. Scope membership is identical for completed and total; no other filtering is applied. The picker lists all registered chapters, including hidden ones.
 - **Completed:** quests marked completed in the currently synced team's data. This is team progress, not a separate personal counter. Repeatable quests are counted as one quest according to their current completion state, not by the number of times repeated.
-- **Percentage:** completed / total × 100, shown to one decimal place. An empty quest file displays 0 / 0 and 0.0%.
+- **Percentage:** completed / total × 100, shown to one decimal place. An empty quest file or chapter displays 0 / 0 and 0.0%.
 
 The static quest definitions in ATM10 v8.2 contain 4,790 quests. Your total can differ if the pack or its quest definitions change. Hidden quests are not automatically excluded, and visibility alone does not establish whether a quest is internal-only or reachable.
 
 ## Validation and feedback
 
-The v0.0.9 build passed automated checks for layout bounds and text spacing, settings-file persistence and invalid-value correction, one-second refresh timing, sync state, disconnects, and changing world/team data. Several hours of gameplay in the primary environment were reported without observed issues.
+The v0.0.10 feature builds passed automated checks for layout bounds, editor save/cancel state, key input handling, chapter scoping, settings persistence and invalid-value correction, one-second timing, and sync/world/team state changes. The author confirmed the three new features using the combined development build in the primary environment.
 
-This is an initial public beta. Other modpacks and the full range of multiplayer/team transitions still need broader in-game testing.
+The earlier v0.0.9 beta was also played for several hours without observed issues. Broader modpack compatibility and the full range of multiplayer/team transitions still need in-game testing.
 
 Report problems through [GitHub Issues](https://github.com/keisuke111/quest-progress-hud/issues). Include the mod, Minecraft, NeoForge and FTB Quests versions, the modpack version, reproduction steps, and a relevant screenshot or log excerpt.
 
