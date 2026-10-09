@@ -29,5 +29,7 @@
   "quest_progress_hud.editor.opacity": "Background: %s%%",
   "quest_progress_hud.editor.drag": "Drag the HUD to move it",
   "quest_progress_hud.editor.reset": "Reset",
-  "quest_progress_hud.editor.save": "Save"
+  "quest_progress_hud.editor.save": "Save",
+  "key.categories.quest_progress_hud": "Quest Progress HUD",
+  "key.quest_progress_hud.toggle": "Toggle quest HUD"
 }
