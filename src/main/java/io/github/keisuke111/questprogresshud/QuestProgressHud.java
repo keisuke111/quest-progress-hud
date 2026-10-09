@@ -11,7 +11,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -36,7 +35,8 @@ public final class QuestProgressHud {
 
     public QuestProgressHud(ModContainer container) {
         container.registerConfig(ModConfig.Type.CLIENT, HudConfig.SPEC);
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        container.registerExtensionPoint(IConfigScreenFactory.class,
+                (mod, parent) -> new HudSettingsScreen(mod, parent, this));
         NeoForge.EVENT_BUS.addListener(this::onRenderGui);
         NeoForge.EVENT_BUS.addListener(this::onClientTick);
         NeoForge.EVENT_BUS.addListener(this::onLogout);
@@ -45,19 +45,14 @@ public final class QuestProgressHud {
     private void onRenderGui(RenderGuiEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
 
-        if (minecraft.player == null || minecraft.level == null || minecraft.options.hideGui || !HudConfig.ENABLED.get()) {
+        if (minecraft.player == null || minecraft.level == null || minecraft.options.hideGui || !HudConfig.ENABLED.get()
+                || minecraft.screen instanceof HudEditorScreen) {
             return;
         }
 
         GuiGraphics graphics = event.getGuiGraphics();
-        int x = 0;
-        int y = 0;
-        int padding = HudLayout.PADDING;
-        HudLayout.Row row = HudLayout.compactRow(minecraft.font.width(titleText),
-                minecraft.font.width(countText), minecraft.font.width(percentageText),
-                minecraft.font.lineHeight, progressLoaded);
+        HudLayout.Row row = hudRow();
         int width = row.width();
-        int contentWidth = width - padding * 2;
         int height = row.height();
 
         HudConfig.Anchor anchor = HudConfig.ANCHOR.get();
@@ -66,11 +61,30 @@ public final class QuestProgressHud {
                 HudConfig.SCALE.get(), anchor.right, anchor.bottom,
                 HudConfig.OFFSET_X.get(), HudConfig.OFFSET_Y.get());
 
+        renderHud(graphics, placement, HudConfig.BACKGROUND_OPACITY.get());
+    }
+
+    HudLayout.Row hudRow() {
+        Minecraft minecraft = Minecraft.getInstance();
+        return HudLayout.compactRow(minecraft.font.width(titleText), minecraft.font.width(countText),
+                minecraft.font.width(percentageText), minecraft.font.lineHeight, progressLoaded);
+    }
+
+    void renderHud(GuiGraphics graphics, HudLayout.Placement placement, int opacity) {
+        Minecraft minecraft = Minecraft.getInstance();
+        int x = 0;
+        int y = 0;
+        int padding = HudLayout.PADDING;
+        HudLayout.Row row = hudRow();
+        int width = row.width();
+        int contentWidth = width - padding * 2;
+        int height = row.height();
+
         graphics.pose().pushPose();
         try {
             graphics.pose().translate(placement.x(), placement.y(), 0);
             graphics.pose().scale((float) placement.scale(), (float) placement.scale(), 1);
-            drawPanel(graphics, x, y, width, height, HudConfig.BACKGROUND_OPACITY.get());
+            drawPanel(graphics, x, y, width, height, opacity);
             graphics.drawString(minecraft.font, titleText, x + padding, y + padding, 0xFFFFFF, true);
             graphics.drawString(minecraft.font, countText, x + row.countX(), y + padding, 0xFFFFFF, true);
 

@@ -2,7 +2,11 @@
 
 A small client-side Minecraft HUD that shows your team's FTB Quests progress without opening the quest book.
 
-## v0.0.9 — Public beta
+## v0.0.10 — Development preview
+
+This branch adds a HUD layout editor and is pending in-game verification. The published v0.0.9 beta remains available unchanged.
+
+## Compact HUD
 
 ```text
 Quests    508 / 4790    10.6%
@@ -41,7 +45,9 @@ Development builds are also available as artifacts on successful [Build workflow
 
 ## HUD settings
 
-Open **Mods → Quest Progress HUD → Config**. Save with **Done**, then return to the world.
+Open **Mods → Quest Progress HUD → Config**. Choose **Edit HUD layout** while in a world to drag the HUD over the game view and adjust size/background with an immediate preview. Controls dock above or below the HUD so bottom-corner layouts can be grabbed. **Save** applies and persists the layout; **Cancel** or **Escape** discards it. **Reset** previews the default layout and only applies it when saved. The HUD visibility setting is preserved.
+
+Choose **Numeric HUD settings** for the existing visibility, corner and exact offset controls. Save those with **Done**. Layout editing is disabled on the title screen because it needs a world to preview.
 
 | Setting | Default | Range / options |
 | --- | --- | --- |
@@ -53,7 +59,7 @@ Open **Mods → Quest Progress HUD → Config**. Save with **Done**, then return
 
 Positive offsets move inward from the selected edges, starting at an 8 GUI-pixel margin. The frame fades with background opacity. F1 hides the HUD with the rest of the game interface.
 
-Settings are stored in `config/quest_progress_hud-client.toml` inside the instance. Existing v0.0.6–v0.0.8 settings remain compatible. Settings labels and help are available in English and Japanese; HUD labels remain in English.
+Settings are stored in `config/quest_progress_hud-client.toml` inside the instance. Existing v0.0.6–v0.0.9 settings remain compatible. Settings labels and help are available in English and Japanese; HUD labels remain in English.
 
 ## What the numbers mean
 

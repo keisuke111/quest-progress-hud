@@ -59,5 +59,22 @@ public final class HudConfig {
         SPEC = builder.build();
     }
 
+    static HudEditorState.Settings readLayout() {
+        Anchor anchor = ANCHOR.get();
+        return new HudEditorState.Settings(anchor.right, anchor.bottom, OFFSET_X.get(), OFFSET_Y.get(),
+                SCALE.get(), BACKGROUND_OPACITY.get());
+    }
+
+    static void saveLayout(HudEditorState.Settings layout) {
+        for (Anchor anchor : Anchor.values()) {
+            if (anchor.right == layout.right() && anchor.bottom == layout.bottom()) ANCHOR.set(anchor);
+        }
+        OFFSET_X.set(layout.offsetX());
+        OFFSET_Y.set(layout.offsetY());
+        SCALE.set(layout.scale());
+        BACKGROUND_OPACITY.set(layout.opacity());
+        SPEC.save();
+    }
+
     private HudConfig() {}
 }

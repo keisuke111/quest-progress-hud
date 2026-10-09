@@ -20,5 +20,14 @@
   "quest_progress_hud.configuration.scale": "HUD size",
   "quest_progress_hud.configuration.scale.tooltip": "0.5 is half size, 1.0 is the default, 3.0 is triple size. Automatically reduced if needed to fit on screen.",
   "quest_progress_hud.configuration.backgroundOpacity": "Background opacity (%)",
-  "quest_progress_hud.configuration.backgroundOpacity.tooltip": "0 is transparent; 100 is opaque. Default: 72."
+  "quest_progress_hud.configuration.backgroundOpacity.tooltip": "0 is transparent; 100 is opaque. Default: 72.",
+  "quest_progress_hud.editor.open": "Edit HUD layout",
+  "quest_progress_hud.editor.world_required": "Enter a world to preview and move the HUD.",
+  "quest_progress_hud.editor.numeric": "Numeric HUD settings",
+  "quest_progress_hud.editor.title": "Edit HUD layout",
+  "quest_progress_hud.editor.scale": "Size: %s",
+  "quest_progress_hud.editor.opacity": "Background: %s%%",
+  "quest_progress_hud.editor.drag": "Drag the HUD to move it",
+  "quest_progress_hud.editor.reset": "Reset",
+  "quest_progress_hud.editor.save": "Save"
 }

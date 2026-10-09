@@ -20,5 +20,14 @@
   "quest_progress_hud.configuration.scale": "HUD のサイズ",
   "quest_progress_hud.configuration.scale.tooltip": "0.5 は半分、1.0 は標準、3.0 は3倍です。画面に収まらない場合は自動で縮小します。",
   "quest_progress_hud.configuration.backgroundOpacity": "背景の濃さ (%)",
-  "quest_progress_hud.configuration.backgroundOpacity.tooltip": "0 は透明、100 は不透明です。初期値は72です。"
+  "quest_progress_hud.configuration.backgroundOpacity.tooltip": "0 は透明、100 は不透明です。初期値は72です。",
+  "quest_progress_hud.editor.open": "HUDの配置を編集",
+  "quest_progress_hud.editor.world_required": "ワールドに入るとHUDを見ながら配置できます。",
+  "quest_progress_hud.editor.numeric": "HUDの数値設定",
+  "quest_progress_hud.editor.title": "HUDの配置を編集",
+  "quest_progress_hud.editor.scale": "サイズ: %s",
+  "quest_progress_hud.editor.opacity": "背景: %s%%",
+  "quest_progress_hud.editor.drag": "HUDをドラッグして移動",
+  "quest_progress_hud.editor.reset": "リセット",
+  "quest_progress_hud.editor.save": "保存"
 }
