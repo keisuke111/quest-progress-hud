@@ -138,6 +138,19 @@ tasks.named('check') {
     dependsOn tasks.named('verifyHudEditor')
 }
 
+tasks.register('verifyQuestScope', JavaExec) {
+    group = 'verification'
+    description = 'Check default all-quest scope, chapter membership and stable IDs.'
+    dependsOn tasks.named('layoutCheckClasses')
+    classpath = sourceSets.layoutCheck.runtimeClasspath
+    mainClass = 'io.github.keisuke111.questprogresshud.QuestScopeTest'
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyQuestScope')
+}
+
+
 tasks.register('verifyHudToggle', JavaExec) {
     group = 'verification'
     description = 'Check single presses, held-key repeats and input outside gameplay.'

@@ -25,7 +25,7 @@ final class HudSettingsScreen extends Screen {
     protected void init() {
         int buttonWidth = Math.min(260, width - 20);
         int x = (width - buttonWidth) / 2;
-        int y = Math.max(40, height / 2 - 35);
+        int y = Math.max(40, height / 2 - 48);
         Button editor = addRenderableWidget(Button.builder(Component.translatable("quest_progress_hud.editor.open"),
                 button -> minecraft.setScreen(new HudEditorScreen(this, hud))).bounds(x, y, buttonWidth, 20).build());
         editor.active = minecraft.level != null && minecraft.player != null;
@@ -33,8 +33,11 @@ final class HudSettingsScreen extends Screen {
         addRenderableWidget(Button.builder(Component.translatable("quest_progress_hud.editor.numeric"),
                 button -> minecraft.setScreen(new ConfigurationScreen(container, this)))
                 .bounds(x, y + 26, buttonWidth, 20).build());
+        addRenderableWidget(Button.builder(Component.translatable("quest_progress_hud.chapter.open"),
+                button -> minecraft.setScreen(new ChapterSettingsScreen(this, hud)))
+                .bounds(x, y + 52, buttonWidth, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("gui.done"), button -> onClose())
-                .bounds(x, y + 60, buttonWidth, 20).build());
+                .bounds(x, y + 86, buttonWidth, 20).build());
     }
 
     @Override

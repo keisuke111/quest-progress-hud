@@ -2,6 +2,7 @@ package io.github.keisuke111.questprogresshud;
 
 import dev.ftb.mods.ftbquests.client.FTBQuestsClient;
 import dev.ftb.mods.ftbquests.quest.BaseQuestFile;
+import dev.ftb.mods.ftbquests.quest.Chapter;
 import dev.ftb.mods.ftbquests.quest.TeamData;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
@@ -35,7 +36,9 @@ public final class QuestProgressHud {
     private final HudToggleInput toggleInput = new HudToggleInput();
     private KeyMapping toggleKey;
     private ProgressTracker.Snapshot displayedSnapshot;
-    private final Component titleText = Component.translatable("hud.quest_progress_hud.title");
+    private Component titleText = Component.translatable("hud.quest_progress_hud.title");
+    private String selectedScope = "";
+    private boolean chapterUnavailable;
     private Component countText = Component.translatable("hud.quest_progress_hud.loading");
     private Component percentageText = Component.empty();
     private double progressFraction;
@@ -111,6 +114,10 @@ public final class QuestProgressHud {
                 minecraft.font.width(percentageText), minecraft.font.lineHeight, progressLoaded);
     }
 
+    boolean canReadQuestFile(BaseQuestFile file) {
+        return tracker.acceptsFile(file);
+    }
+
     void renderHud(GuiGraphics graphics, HudLayout.Placement placement, int opacity) {
         Minecraft minecraft = Minecraft.getInstance();
         int x = 0;
@@ -181,15 +188,47 @@ public final class QuestProgressHud {
         }
         boolean fileReady = file != null && FTBQuestsClient.isClientDataLoaded();
         TeamData team = fileReady ? FTBQuestsClient.getClientPlayerData() : null;
-        boolean ready = team != null && !UNSYNCED_TEAM.equals(team.getTeamId());
+        boolean ready = team != null && !UNSYNCED_TEAM.equals(team.getTeamId()) && canReadQuestFile(file);
+        String scope = QuestScope.normalize(HudConfig.CHAPTER_ID.get());
+        long chapterId = QuestScope.id(scope);
+        if (!scope.equals(selectedScope)) {
+            selectedScope = scope;
+            tracker.clear();
+            showLoading();
+        }
+        Chapter chapter = ready && !scope.isEmpty() ? file.getChapter(chapterId) : null;
+        if (!ready) {
+            titleText = Component.translatable(scope.isEmpty() ? "hud.quest_progress_hud.title" : "hud.quest_progress_hud.chapter");
+        } else if (!scope.isEmpty() && chapter == null) {
+            tracker.clear();
+            titleText = Component.translatable("hud.quest_progress_hud.chapter");
+            if (!chapterUnavailable) {
+                showLoading();
+                countText = Component.translatable("hud.quest_progress_hud.chapter_unavailable");
+            }
+            chapterUnavailable = true;
+            return;
+        }
         ProgressTracker.Snapshot snapshot = tracker.update(System.nanoTime(),
                 minecraft.getConnection(), minecraft.level, file, team, ready, () -> {
+                    if (chapter == null) {
+                        titleText = Component.translatable("hud.quest_progress_hud.title");
+                    } else {
+                        String fullTitle = chapter.getTitle().getString();
+                        String shortTitle = minecraft.font.plainSubstrByWidth(fullTitle, 110);
+                        titleText = Component.literal(shortTitle.equals(fullTitle) ? shortTitle : shortTitle + "...");
+                    }
                     ProgressTracker.Counter counter = new ProgressTracker.Counter();
-                    // Count every registered quest, including hidden and optional ones.
-                    file.forAllQuests(quest -> counter.accept(team.isCompleted(quest)));
+                    // Use identical scope membership for numerator and denominator; never filter visibility or repeatability.
+                    file.forAllQuests(quest -> {
+                        if (QuestScope.includes(chapterId, quest.getQuestChapter().getId())) {
+                            counter.accept(team.isCompleted(quest));
+                        }
+                    });
                     return counter.snapshot();
                 });
         if (snapshot == null) {
+            titleText = Component.translatable(scope.isEmpty() ? "hud.quest_progress_hud.title" : "hud.quest_progress_hud.chapter");
             showLoading();
         } else if (!snapshot.equals(displayedSnapshot)) {
             displayedSnapshot = snapshot;
@@ -198,11 +237,14 @@ public final class QuestProgressHud {
             percentageText = Component.literal(String.format(Locale.ROOT, "%.1f%%", snapshot.fraction() * 100.0));
             progressFraction = snapshot.fraction();
             progressLoaded = true;
+            chapterUnavailable = false;
         }
     }
 
     private void showLoading() {
-        if (!progressLoaded && displayedSnapshot == null) return;
+        titleText = Component.translatable(selectedScope.isEmpty() ? "hud.quest_progress_hud.title" : "hud.quest_progress_hud.chapter");
+        if (!progressLoaded && displayedSnapshot == null && !chapterUnavailable) return;
+        chapterUnavailable = false;
         displayedSnapshot = null;
         countText = Component.translatable("hud.quest_progress_hud.loading");
         percentageText = Component.empty();

@@ -6,7 +6,9 @@ A small client-side Minecraft HUD that shows your team's FTB Quests progress wit
 
 This branch adds a HUD layout editor and is pending in-game verification. The published v0.0.9 beta remains available unchanged.
 
-This focused branch also adds **Toggle quest HUD** under **Options → Controls → Key Binds → Quest Progress HUD**. The key starts unassigned. Bind a key there to switch the existing Show HUD setting while playing; the visibility change is saved across restarts. Holding the key toggles once, and input in chat, menus, the editor or an inactive window is discarded. F1 continues to hide the whole game HUD without changing this setting. The key assignment is stored by Minecraft in `options.txt`.
+This combined preview also adds **Select chapter** under the mod's Config entry. Choose **All quests** (default) or a chapter, then **Save**. Cancel/Escape discards the selection. The picker uses chapter titles and pages; tooltips show full title, group and stable ID to distinguish duplicates. Chapter IDs are stored in the client config, globally for this Minecraft instance. On another quest file where the ID is missing, the HUD displays **Chapter unavailable** until you select a chapter or All quests. The picker waits for world/team sync; All quests remains selectable. Long HUD chapter titles are shortened to keep the compact layout readable.
+
+This combined preview also adds **Toggle quest HUD** under **Options → Controls → Key Binds → Quest Progress HUD**. The key starts unassigned. Bind a key there to switch the existing Show HUD setting while playing; the visibility change is saved across restarts. Holding the key toggles once, and input in chat, menus, the editor or an inactive window is discarded. F1 continues to hide the whole game HUD without changing this setting. The key assignment is stored by Minecraft in `options.txt`.
 
 ## Compact HUD
 
@@ -65,7 +67,7 @@ Settings are stored in `config/quest_progress_hud-client.toml` inside the instan
 
 ## What the numbers mean
 
-- **Total:** every registered FTB Quest, including hidden, optional, repeatable, and internal quests. No filtering is applied.
+- **Total:** every registered FTB Quest in the selected scope: the entire file for All quests, or the selected chapter. Hidden, optional, repeatable, and internal quests remain included. Scope membership is identical for completed and total; no other filtering is applied. The picker lists all registered chapters, including hidden ones.
 - **Completed:** quests marked completed in the currently synced team's data. This is team progress, not a separate personal counter. Repeatable quests are counted as one quest according to their current completion state, not by the number of times repeated.
 - **Percentage:** completed / total × 100, shown to one decimal place. An empty quest file displays 0 / 0 and 0.0%.
 

@@ -30,6 +30,15 @@
   "quest_progress_hud.editor.drag": "HUDをドラッグして移動",
   "quest_progress_hud.editor.reset": "リセット",
   "quest_progress_hud.editor.save": "保存",
+  "quest_progress_hud.configuration.chapterId": "チャプターID（詳細設定）",
+  "quest_progress_hud.configuration.chapterId.tooltip": "MOD設定の「チャプターを選択」を利用してください。空欄は全クエストです。現在のワールドに保存した章がない場合は「章が見つかりません」と表示します。",
+  "quest_progress_hud.chapter.open": "チャプターを選択",
+  "quest_progress_hud.chapter.title": "クエスト進捗の対象",
+  "quest_progress_hud.chapter.all": "全クエスト",
+  "quest_progress_hud.chapter.selected": "選択中: %s",
+  "quest_progress_hud.chapter.page": "%s / %s",
+  "hud.quest_progress_hud.chapter": "Chapter",
+  "hud.quest_progress_hud.chapter_unavailable": "Chapter unavailable",
   "key.categories.quest_progress_hud": "Quest Progress HUD",
   "key.quest_progress_hud.toggle": "クエストHUDの表示切り替え"
 }

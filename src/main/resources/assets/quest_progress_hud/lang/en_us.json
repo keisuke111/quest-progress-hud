@@ -30,6 +30,15 @@
   "quest_progress_hud.editor.drag": "Drag the HUD to move it",
   "quest_progress_hud.editor.reset": "Reset",
   "quest_progress_hud.editor.save": "Save",
+  "quest_progress_hud.configuration.chapterId": "Chapter ID (advanced)",
+  "quest_progress_hud.configuration.chapterId.tooltip": "Prefer Select chapter in the mod settings. Empty means All quests. A saved chapter missing from the current world displays Chapter unavailable.",
+  "quest_progress_hud.chapter.open": "Select chapter",
+  "quest_progress_hud.chapter.title": "Quest progress scope",
+  "quest_progress_hud.chapter.all": "All quests",
+  "quest_progress_hud.chapter.selected": "Selected: %s",
+  "quest_progress_hud.chapter.page": "%s / %s",
+  "hud.quest_progress_hud.chapter": "Chapter",
+  "hud.quest_progress_hud.chapter_unavailable": "Chapter unavailable",
   "key.categories.quest_progress_hud": "Quest Progress HUD",
   "key.quest_progress_hud.toggle": "Toggle quest HUD"
 }

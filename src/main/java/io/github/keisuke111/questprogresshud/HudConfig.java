@@ -35,6 +35,7 @@ public final class HudConfig {
     public static final ModConfigSpec.IntValue OFFSET_Y;
     public static final ModConfigSpec.DoubleValue SCALE;
     public static final ModConfigSpec.IntValue BACKGROUND_OPACITY;
+    public static final ModConfigSpec.ConfigValue<String> CHAPTER_ID;
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -56,6 +57,9 @@ public final class HudConfig {
         BACKGROUND_OPACITY = builder.comment("Background opacity in percent: 0 is transparent, 100 is opaque.")
                 .translation("quest_progress_hud.configuration.backgroundOpacity")
                 .defineInRange("backgroundOpacity", 72, 0, 100);
+        CHAPTER_ID = builder.comment("Empty counts all registered quests. Choose a chapter in the Select chapter screen; its 16-digit FTB ID is stored here.")
+                .translation("quest_progress_hud.configuration.chapterId")
+                .define("chapterId", "", QuestScope::valid);
         SPEC = builder.build();
     }
 
