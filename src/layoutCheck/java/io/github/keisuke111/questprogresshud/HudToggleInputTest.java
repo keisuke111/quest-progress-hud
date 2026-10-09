@@ -14,6 +14,7 @@ public final class HudToggleInputTest {
         expect(input.update(false, true, true), "Quick tap released between ticks still toggles");
         expect(!input.update(true, true, false), "Chat/menu/title/focus-loss input discarded");
         expect(!input.update(true, true, true), "Key held when closing a menu is not replayed");
+        expect(!input.update(false, true, true), "Inactive conflict context cannot replay its pending click");
         input.update(false, false, false);
         expect(!input.update(false, false, true), "Queued menu click is drained");
         expect(input.update(true, true, true), "Fresh gameplay press works");
