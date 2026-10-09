@@ -125,3 +125,15 @@ tasks.register('verifyHudConfig', JavaExec) {
 tasks.named('check') {
     dependsOn tasks.named('verifyHudConfig')
 }
+
+tasks.register('verifyHudEditor', JavaExec) {
+    group = 'verification'
+    description = 'Check isolated edit state, drag bounds, corner offsets, reset and resizing.'
+    dependsOn tasks.named('layoutCheckClasses')
+    classpath = sourceSets.layoutCheck.runtimeClasspath
+    mainClass = 'io.github.keisuke111.questprogresshud.HudEditorStateTest'
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyHudEditor')
+}
