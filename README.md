@@ -2,11 +2,11 @@
 
 A small client-side Minecraft HUD that shows your team's FTB Quests progress without opening the quest book.
 
-## v0.0.10 — Beta release preparation
+## v0.0.10 — Beta
 
-The next beta includes live HUD layout editing, an optional visibility key, and chapter selection. The author has confirmed the three features in-game. v0.0.10 is being prepared for publication; this branch does not publish a release.
+This beta adds live HUD layout editing, an optional visibility key, and chapter selection. The author confirmed the three features in-game and reported no observed issues during subsequent play.
 
-See [CHANGELOG.md](CHANGELOG.md) for changes and [release notes](releases/v0.0.10.md) for the publication draft.
+See [CHANGELOG.md](CHANGELOG.md) for changes and [release notes](releases/v0.0.10.md) for this version.
 
 ## Compact HUD
 
@@ -38,7 +38,7 @@ The jar declares FTB Quests 2101.1.0+ as a dependency; that is not a claim that 
 
 ## Download and installation
 
-1. Open [Releases](https://github.com/keisuke111/quest-progress-hud/releases) and choose an available beta for Minecraft 1.21.1 / NeoForge. Download its `quest-progress-hud-<version>.jar` from Assets. v0.0.10 will appear there after publication.
+1. Open [Releases](https://github.com/keisuke111/quest-progress-hud/releases) and choose an available beta for Minecraft 1.21.1 / NeoForge. Download its `quest-progress-hud-<version>.jar` from Assets. For v0.0.10, use the [Beta release](https://github.com/keisuke111/quest-progress-hud/releases/tag/v0.0.10).
 2. Close Minecraft and put the jar in your instance's `mods` folder.
 3. Remove older Quest Progress HUD jars from that folder, keeping only one version.
 4. Start the game and enter a world. The HUD appears after quest and team data sync.

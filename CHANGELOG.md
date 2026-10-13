@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.0.10 — Unreleased
+## 0.0.10 — 2026-10-13
 
-Planned beta release.
+Beta release.
 
 ### Added
 
