@@ -18,9 +18,9 @@ Fork the repository, create a branch, and open a PR targeting main. Keep each PR
 
 Forkしたリポジトリでブランチを作り、main宛てにPRを提出してください。1つのPRは1つの変更に絞ります。大きな機能追加やクエストの数え方の変更は、先にIssueで相談してください。PRには問題・変更後の動作・確認結果を記載してください。
 
-Use Java 21 and Gradle 9.2.1. Run `gradle build` to compile and run the layout, progress-tracking and configuration checks. For user-visible changes, also test in Minecraft and describe the exact environment. Add or adjust checks where they verify changed behavior. State clearly when in-game testing has not been performed.
+Use Java 21 and Gradle 9.2.1. Run `gradle build` to compile and run the layout, progress-tracking, configuration, editor-state, chapter-scope and toggle-input checks. For user-visible changes, also test in Minecraft and describe the exact environment. Add or adjust checks where they verify changed behavior. State clearly when in-game testing has not been performed.
 
-Java 21とGradle 9.2.1を使用します。`gradle build`でビルドとレイアウト・進捗取得・設定の確認を実行できます。表示や動作を変えた場合はゲーム内でも確認し、環境を記載してください。変更した動作を確認する必要がある場合は検証も更新してください。ゲーム内未確認なら、その旨を記載します。
+Java 21とGradle 9.2.1を使用します。`gradle build`でビルドとレイアウト・進捗取得・設定・編集状態・チャプター集計・キー入力の確認を実行できます。表示や動作を変えた場合はゲーム内でも確認し、環境を記載してください。変更した動作を確認する必要がある場合は検証も更新してください。ゲーム内未確認なら、その旨を記載します。
 
 The [README](README.md) describes current compatibility and counting rules. Preserve one-second refresh behavior, existing settings compatibility and the current all-registered-quests denominator unless the change is explicitly agreed. Include screenshots for layout changes and update both English and Japanese translations when changing settings text. Leave version bumps and release publication to the maintainer unless requested.
 

@@ -93,72 +93,24 @@ sourceSets {
     }
 }
 
-tasks.register('verifyHudLayout', JavaExec) {
-    group = 'verification'
-    description = 'Check HUD corners, offsets, scale, bounds, and opacity.'
-    dependsOn tasks.named('layoutCheckClasses')
-    classpath = sourceSets.layoutCheck.runtimeClasspath
-    mainClass = 'io.github.keisuke111.questprogresshud.HudLayoutTest'
-}
-tasks.named('check') {
-    dependsOn tasks.named('verifyHudLayout')
-}
-
-tasks.register('verifyProgress', JavaExec) {
-    group = 'verification'
-    description = 'Check refresh timing, sync readiness, disconnects, teams, resets and counting.'
-    dependsOn tasks.named('layoutCheckClasses')
-    classpath = sourceSets.layoutCheck.runtimeClasspath
-    mainClass = 'io.github.keisuke111.questprogresshud.ProgressTrackerTest'
-}
-tasks.named('check') {
-    dependsOn tasks.named('verifyProgress')
-}
-
-tasks.register('verifyHudConfig', JavaExec) {
-    group = 'verification'
-    description = 'Check persisted settings and invalid-value correction using the NeoForge spec.'
-    dependsOn tasks.named('layoutCheckClasses')
-    classpath = sourceSets.layoutCheck.runtimeClasspath
-    mainClass = 'io.github.keisuke111.questprogresshud.HudConfigTest'
-}
-tasks.named('check') {
-    dependsOn tasks.named('verifyHudConfig')
-}
-
-tasks.register('verifyHudEditor', JavaExec) {
-    group = 'verification'
-    description = 'Check isolated edit state, drag bounds, corner offsets, reset and resizing.'
-    dependsOn tasks.named('layoutCheckClasses')
-    classpath = sourceSets.layoutCheck.runtimeClasspath
-    mainClass = 'io.github.keisuke111.questprogresshud.HudEditorStateTest'
+// Keep every standalone check on the same classpath and wired into gradle build.
+var hudChecks = [
+        verifyHudLayout: ['HudLayoutTest', 'Check HUD corners, offsets, scale, bounds, and opacity.'],
+        verifyProgress: ['ProgressTrackerTest', 'Check refresh timing, sync readiness, disconnects, teams, resets and counting.'],
+        verifyHudConfig: ['HudConfigTest', 'Check persisted settings and invalid-value correction using the NeoForge spec.'],
+        verifyHudEditor: ['HudEditorStateTest', 'Check isolated edit state, drag bounds, corner offsets, reset and resizing.'],
+        verifyQuestScope: ['QuestScopeTest', 'Check default all-quest scope, chapter membership and stable IDs.'],
+        verifyHudToggle: ['HudToggleInputTest', 'Check single presses, held-key repeats and input outside gameplay.'],
+].collect { taskName, details ->
+    tasks.register(taskName, JavaExec) {
+        group = 'verification'
+        description = details[1]
+        dependsOn tasks.named('layoutCheckClasses')
+        classpath = sourceSets.layoutCheck.runtimeClasspath
+        mainClass = "io.github.keisuke111.questprogresshud.${details[0]}"
+    }
 }
 
 tasks.named('check') {
-    dependsOn tasks.named('verifyHudEditor')
-}
-
-tasks.register('verifyQuestScope', JavaExec) {
-    group = 'verification'
-    description = 'Check default all-quest scope, chapter membership and stable IDs.'
-    dependsOn tasks.named('layoutCheckClasses')
-    classpath = sourceSets.layoutCheck.runtimeClasspath
-    mainClass = 'io.github.keisuke111.questprogresshud.QuestScopeTest'
-}
-
-tasks.named('check') {
-    dependsOn tasks.named('verifyQuestScope')
-}
-
-
-tasks.register('verifyHudToggle', JavaExec) {
-    group = 'verification'
-    description = 'Check single presses, held-key repeats and input outside gameplay.'
-    dependsOn tasks.named('layoutCheckClasses')
-    classpath = sourceSets.layoutCheck.runtimeClasspath
-    mainClass = 'io.github.keisuke111.questprogresshud.HudToggleInputTest'
-}
-
-tasks.named('check') {
-    dependsOn tasks.named('verifyHudToggle')
+    dependsOn hudChecks
 }

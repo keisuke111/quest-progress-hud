@@ -13,7 +13,7 @@ body:
     attributes:
       label: "Quest Progress HUD version / HUDのバージョン"
       description: "Use the version from the jar filename or Mods screen. Unknown is okay. / jar名やMods画面で確認。不明でも構いません。"
-      placeholder: "0.0.9"
+      placeholder: "0.0.10"
     validations:
       required: true
   - type: input
