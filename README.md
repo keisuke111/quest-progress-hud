@@ -2,11 +2,13 @@
 
 A small client-side Minecraft HUD that shows your team's FTB Quests progress without opening the quest book.
 
-## v0.0.10 — Beta
+## 1.0.0 — Stable
 
-This beta adds live HUD layout editing, an optional visibility key, and chapter selection. The author confirmed the three features in-game and reported no observed issues during subsequent play.
+1.0.0 carries forward the gameplay functionality of v0.0.10, following the author's continued stable use in All the Mods 10 v8.2. This release updates versioning, distribution metadata and documentation; it does not add features or change counting, settings or refresh timing.
 
-See [CHANGELOG.md](CHANGELOG.md) for changes and [release notes](releases/v0.0.10.md) for this version.
+[CurseForge downloads](https://www.curseforge.com/minecraft/mc-mods/quest-progress-hud/files) · [GitHub releases](https://github.com/keisuke111/quest-progress-hud/releases) · [Report a problem](https://github.com/keisuke111/quest-progress-hud/issues/new/choose)
+
+See [CHANGELOG.md](CHANGELOG.md) and the [1.0.0 release notes](releases/v1.0.0.md).
 
 ## Compact HUD
 
@@ -28,17 +30,20 @@ The compact HUD uses Minecraft's font, a translucent dark background, a subtle r
 | Component | Target / tested version |
 | --- | --- |
 | Minecraft | 1.21.1 |
+| Java | 21 |
 | Mod loader | NeoForge 21.1.251 or newer within Minecraft 1.21.1 |
 | FTB Quests | Built and tested with 2101.1.36 |
 | Primary test environment | All the Mods 10 v8.2 |
 
 This HUD is installed on the client. FTB Quests and its required dependencies must already be installed in the environment, with quest data available to the client.
 
+ATM10 v8.5 has not been verified for this release. Its compatibility assessment is separate; any required fix is intended for 1.0.1. A newer pack version does not require an automatic HUD update.
+
 The jar declares FTB Quests 2101.1.0+ as a dependency; that is not a claim that every version has been tested. Other Minecraft versions, Forge, Fabric, and other modpacks are not yet verified.
 
 ## Download and installation
 
-1. Open [Releases](https://github.com/keisuke111/quest-progress-hud/releases) and choose an available beta for Minecraft 1.21.1 / NeoForge. Download its `quest-progress-hud-<version>.jar` from Assets. For v0.0.10, use the [Beta release](https://github.com/keisuke111/quest-progress-hud/releases/tag/v0.0.10).
+1. Download the jar for Minecraft 1.21.1 / NeoForge from [CurseForge](https://www.curseforge.com/minecraft/mc-mods/quest-progress-hud/files) or [GitHub Releases](https://github.com/keisuke111/quest-progress-hud/releases). For 1.0.0, choose `quest-progress-hud-1.0.0.jar`; do not install an Actions artifact unless you intend to test a development build.
 2. Close Minecraft and put the jar in your instance's `mods` folder.
 3. Remove older Quest Progress HUD jars from that folder, keeping only one version.
 4. Start the game and enter a world. The HUD appears after quest and team data sync.
@@ -62,7 +67,7 @@ Choose **Numeric HUD settings** for the existing visibility, corner and exact of
 
 Positive offsets move inward from the selected edges, starting at an 8 GUI-pixel margin. The frame fades with background opacity. F1 hides the HUD with the rest of the game interface.
 
-Settings are stored in `config/quest_progress_hud-client.toml` inside the instance. Existing v0.0.6–v0.0.9 settings remain compatible. Settings labels and help are available in English and Japanese; HUD labels remain in English.
+Settings are stored in `config/quest_progress_hud-client.toml` inside the instance. Existing v0.0.6–v0.0.10 settings remain compatible. Updating from v0.0.10 does not require resetting the config or key bindings. Settings labels and help are available in English and Japanese; HUD labels remain in English.
 
 ## Chapter selection
 
@@ -84,7 +89,7 @@ The static quest definitions in ATM10 v8.2 contain 4,790 quests. Your total can 
 
 The v0.0.10 feature builds passed automated checks for layout bounds, editor save/cancel state, key input handling, chapter scoping, settings persistence and invalid-value correction, one-second timing, and sync/world/team state changes. The author confirmed the three new features using the combined development build in the primary environment.
 
-The earlier v0.0.9 beta was also played for several hours without observed issues. Broader modpack compatibility and the full range of multiplayer/team transitions still need in-game testing.
+The author reports continued stable gameplay with v0.0.10 in ATM10 v8.2. 1.0.0 retains its gameplay code and translations; version and packaging checks are run separately. The earlier v0.0.9 beta was also played for several hours without observed issues. Broader modpack compatibility and the full range of multiplayer/team transitions still need in-game testing.
 
 Report problems through [GitHub Issues](https://github.com/keisuke111/quest-progress-hud/issues). Include the mod, Minecraft, NeoForge and FTB Quests versions, the modpack version, reproduction steps, and a relevant screenshot or log excerpt.
 
