@@ -39,7 +39,8 @@ def verify(path):
                 errors.append("unexpected mod license")
         if "META-INF/LICENSE" not in names:
             errors.append("missing license file")
-        elif archive.read("META-INF/LICENSE") != (ROOT / "LICENSE").read_bytes():
+        elif archive.read("META-INF/LICENSE").decode("utf-8").splitlines() != (
+                ROOT / "LICENSE").read_text(encoding="utf-8").splitlines():
             errors.append("packaged license does not match repository")
         languages = {}
         for locale in ("en_us", "ja_jp"):
