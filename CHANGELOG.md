@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.0 — 2026-11-06
+
+First stable release, based on v0.0.10 after continued stable use reported by the author in ATM10 v8.2.
+
+- Preserve the compact HUD, live layout editor, optional visibility key and chapter selection.
+- Preserve existing config/key bindings, one-second refresh, team progress and all-registered-quests default.
+- Update release/download documentation, mod-page links and maintenance wording.
+- Include the repository license in the jar and verify packaged metadata/version, English/Japanese resources and standalone jar contents.
+- Keep Minecraft 1.21.1 / NeoForge 21.1.251 / FTB Quests 2101.1.36 as the tested target. ATM10 v8.5 remains unverified; any required compatibility fix is deferred to 1.0.1.
+
 ## 0.0.10 — 2026-10-13
 
 Beta release.

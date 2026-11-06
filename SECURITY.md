@@ -12,9 +12,9 @@ For ordinary HUD bugs or feature requests, use [Issues](https://github.com/keisu
 
 ## Maintenance scope / 対応範囲
 
-This is an initial beta. Reports concerning the latest published beta and the environment documented in the README are the current focus. Older versions and other Minecraft versions/loaders do not have a promised security-maintenance period. Compatibility claims and dependency declarations do not guarantee that third-party software is free of vulnerabilities.
+Reports concerning the latest published release and the environment documented in the README are the current focus. New fixes are delivered in the latest maintained version; older beta releases are not maintained separately. Older versions and other Minecraft versions/loaders do not have a promised security-maintenance period. Compatibility claims and dependency declarations do not guarantee that third-party software is free of vulnerabilities.
 
-初回Betaのため、最新の公開BetaとREADME記載の環境を中心に報告を確認します。旧版や他のMinecraftバージョン・ローダーに対する保守期間は約束していません。対応環境や依存関係の記載は、外部ソフトウェアに脆弱性がないことを保証するものではありません。
+最新の公開版とREADME記載の環境を中心に報告を確認します。修正は最新の保守対象版へ反映し、過去のBeta版は個別に保守しません。旧版や他のMinecraftバージョン・ローダーに対する保守期間は約束していません。対応環境や依存関係の記載は、外部ソフトウェアに脆弱性がないことを保証するものではありません。
 
 ## Known dependency alerts
 

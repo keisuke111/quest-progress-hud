@@ -1,14 +1,17 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
+issueTrackerURL="https://github.com/keisuke111/quest-progress-hud/issues"
 
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/quest-progress-hud"
 authors="keisuke111"
 description='''
-A lightweight HUD for displaying FTB Quests progress.
+A compact client-side HUD for your team's FTB Quests progress.
+Track all quests or one chapter, edit the HUD layout, and optionally bind a visibility key.
 '''
 
 [[dependencies.${mod_id}]]
